@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b5cff">
+<title>Request a Service | Mule QuickFix</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+
+.header{
+  background:#0b5cff;
+  color:#fff;
+  padding:18px;
+}
+
+.header-inner{
+  max-width:700px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.back{
+  color:#fff;
+  text-decoration:none;
+  font-size:22px;
+}
+
+.logo{
+  font-size:21px;
+  font-weight:800;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:22px 16px 40px;
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:22px 18px;
+  box-shadow:0 7px 25px rgba(0,0,0,.07);
+}
+
+h1{
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.intro{
+  color:#687386;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  margin:17px 0 7px;
+}
+
+select,
+textarea,
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d8dee9;
+  border-radius:11px;
+  font-size:16px;
+  background:#fff;
+  outline:none;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+select:focus,
+textarea:focus,
+input:focus{
+  border-color:#0b5cff;
+}
+
+.help{
+  color:#687386;
+  font-size:12px;
+  margin-top:6px;
+  line-height:1.4;
+}
+
+.submit{
+  width:100%;
+  border:0;
+  padding:16px;
+  border-radius:12px;
+  background:#0b5cff;
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  margin-top:24px;
+}
+
+.submit:disabled{
+  opacity:.6;
+}
+
+.message{
+  display:none;
+  margin-top:16px;
+  padding:13px;
+  border-radius:10px;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.success{
+  background:#e9f8ef;
+  color:#176b39;
+}
+
+.error{
+  background:#fdecec;
+  color:#a52323;
+}
+
+.note{
+  margin-top:18px;
+  background:#f1f5ff;
+  border-radius:12px;
+  padding:14px;
+  color:#40506b;
+  font-size:13px;
+  line-height:1.5;
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="dashboard.html" class="back">←</a>
+    <div class="logo">🔧 Mule QuickFix</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="card">
+
+    <h1>Request a Service</h1>
+
+    <p class="intro">
+      Tell us what you need. Suitable technicians will be able
+      to see your request and choose jobs they can handle.
+    </p>
+
+    <form id="requestForm">
+
+      <label for="serviceType">
+        What service do you need?
+      </label>
+
+      <select id="serviceType" required>
+
+        <option value="">
+          Select a service
+        </option>
+
+        <option value="Plumbing">
+          Plumbing
+        </option>
+
+        <option value="Electrical">
+          Electrical
+        </option>
+
+        <option value="AC & Refrigeration">
+          AC & Refrigeration
+        </option>
+
+        <option value="Vehicle Repairs">
+          Vehicle Repairs
+        </option>
+
+        <option value="Home Repairs">
+          Home Repairs
+        </option>
+
+        <option value="Phone & Computer">
+          Phone & Computer
+        </option>
+
+        <option value="Appliance Repair">
+          Appliance Repair
+        </option>
+
+        <option value="Other Services">
+          Other Services
+        </option>
+
+      </select>
+
+
+      <label for="description">
+        Describe the problem
+      </label>
+
+      <textarea
+        id="description"
+        placeholder="Explain what is wrong and what you need the technician to do..."
+        required
+      ></textarea>
+
+
+      <label for="location">
+        Where is the service needed?
+      </label>
+
+      <input
+        type="text"
+        id="location"
+        placeholder="e.g. Bulangililo, Kitwe"
+        required
+      >
+
+      <div class="help">
+        Give a clear location so the technician knows where the job is.
+      </div>
+
+
+      <label for="budget">
+        Suggested budget
+      </label>
+
+      <input
+        type="number"
+        id="budget"
+        min="1"
+        step="1"
+        placeholder="e.g. 300"
+        required
+      >
+
+      <div class="help">
+        This is the amount you are thinking of spending.
+        The final price can be agreed between you and the technician.
+      </div>
+
+
+      <button
+        type="submit"
+        class="submit"
+        id="submitBtn"
+      >
+        SUBMIT SERVICE REQUEST
+      </button>
+
+    </form>
+
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+    <div class="note">
+      🔒 <strong>Your phone number is protected.</strong><br>
+      Technicians will not see your phone number from this request.
+      If a technician accepts your job, management will handle
+      the customer-contact release process.
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+import { auth, db } from "../firebase.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  ref,
+  push,
+  set,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+const form =
+  document.getElementById("requestForm");
+
+const submitBtn =
+  document.getElementById("submitBtn");
+
+const message =
+  document.getElementById("message");
+
+
+let currentUser = null;
+
+
+/*
+  CHECK CUSTOMER LOGIN
+*/
+
+onAuthStateChanged(auth, async (user)=>{
+
+  if(!user){
+
+    window.location.href =
+      "../login.html";
+
+    return;
+  }
+
+  currentUser = user;
+
+});
+
+
+/*
+  SHOW MESSAGE
+*/
+
+function showMessage(text,type){
+
+  message.textContent = text;
+
+  message.className =
+    "message " + type;
+
+  message.style.display = "block";
+
+}
+
+
+/*
+  SUBMIT REQUEST
+*/
+
+form.addEventListener("submit", async (e)=>{
+
+  e.preventDefault();
+
+
+  if(!currentUser){
+
+    showMessage(
+      "Please login before requesting a service.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const serviceType =
+    document.getElementById("serviceType")
+      .value;
+
+  const description =
+    document.getElementById("description")
+      .value.trim();
+
+  const location =
+    document.getElementById("location")
+      .value.trim();
+
+  const budget =
+    Number(
+      document.getElementById("budget")
+        .value
+    );
+
+
+  if(
+    !serviceType ||
+    !description ||
+    !location ||
+    !budget ||
+    budget <= 0
+  ){
+
+    showMessage(
+      "Please complete all fields correctly.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  submitBtn.disabled = true;
+  submitBtn.textContent =
+    "SUBMITTING REQUEST...";
+
+
+  try{
+
+    /*
+      Generate a unique request ID.
+    */
+
+    const requestRef =
+      push(
+        ref(db,"serviceRequests")
+      );
+
+
+    /*
+      IMPORTANT:
+      Customer phone number is NOT stored here.
+    */
+
+    const requestData = {
+
+      requestId: requestRef.key,
+
+      customerId:
+        currentUser.uid,
+
+      serviceType:
+        serviceType,
+
+      description:
+        description,
+
+      location:
+        location,
+
+      suggestedBudget:
+        budget,
+
+      status:
+        "pending",
+
+      technicianId:
+        null,
+
+      createdAt:
+        serverTimestamp(),
+
+      updatedAt:
+        serverTimestamp()
+
+    };
+
+
+    await set(
+      requestRef,
+      requestData
+    );
+
+
+    showMessage(
+      "Your service request has been submitted successfully.",
+      "success"
+    );
+
+
+    form.reset();
+
+
+    setTimeout(()=>{
+
+      window.location.href =
+        "dashboard.html";
+
+    },1500);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "We could not submit your request. Please try again.",
+      "error"
+    );
+
+    submitBtn.disabled = false;
+
+    submitBtn.textContent =
+      "SUBMIT SERVICE REQUEST";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
