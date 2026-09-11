@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b5cff">
+
+  <title>Mule QuickFix</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: #0b5cff;
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: white;
+      color: #0b5cff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .menu-btn {
+      border: 0;
+      background: rgba(255,255,255,.15);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      font-size: 21px;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b5cff, #0846c7);
+      color: white;
+      padding: 42px 22px 48px;
+      border-radius: 0 0 30px 30px;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      line-height: 1.12;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: .94;
+      margin-bottom: 25px;
+    }
+
+    .primary-btn {
+      display: inline-block;
+      width: 100%;
+      border: 0;
+      background: white;
+      color: #0b5cff;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .section {
+      padding: 28px 18px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .service {
+      background: white;
+      border-radius: 18px;
+      padding: 20px 14px;
+      min-height: 125px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .service:active {
+      transform: scale(.97);
+    }
+
+    .service-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .service h3 {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .service p {
+      color: #6b7280;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .how {
+      display: grid;
+      gap: 12px;
+    }
+
+    .step {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: 0 4px 18px rgba(0,0,0,.05);
+    }
+
+    .step-number {
+      min-width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e8efff;
+      color: #0b5cff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+
+    .step p {
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .technician-card {
+      background: #172033;
+      color: white;
+      padding: 24px;
+      border-radius: 20px;
+    }
+
+    .technician-card h2 {
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+
+    .technician-card p {
+      color: #d0d5dd;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .outline-btn {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,.5);
+      color: white;
+      text-decoration: none;
+      padding: 13px 17px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .commission {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.05);
+      border-left: 5px solid #0b5cff;
+    }
+
+    .commission h3 {
+      margin-bottom: 8px;
+    }
+
+    .commission p {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    footer {
+      background: #111827;
+      color: #cbd5e1;
+      padding: 28px 20px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    .small {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    @media (min-width: 700px) {
+      .hero {
+        padding: 70px 10%;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        max-width: 700px;
+      }
+
+      .hero p {
+        max-width: 650px;
+      }
+
+      .primary-btn {
+        width: auto;
+        padding: 16px 30px;
+      }
+
+      .services {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">M</div>
+      <div class="brand-name">Mule QuickFix</div>
+    </div>
+
+    <button class="menu-btn" onclick="goToLogin()" aria-label="Login">
+      →
+    </button>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <h1>Get the right technician for the job.</h1>
+
+      <p>
+        Need a repair or service? Tell Mule QuickFix what you need,
+        suggest your budget, and connect with a technician.
+      </p>
+
+      <a href="register.html" class="primary-btn">
+        REQUEST A SERVICE
+      </a>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">What do you need?</h2>
+
+      <div class="services">
+
+        <div class="service">
+          <div class="service-icon">🔧</div>
+          <h3>Plumbing</h3>
+          <p>Pipes, taps, leaks and water problems.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">⚡</div>
+          <h3>Electrical</h3>
+          <p>Electrical installation and repairs.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">❄️</div>
+          <h3>Air Conditioning</h3>
+          <p>AC installation, repair and servicing.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">🚗</div>
+          <h3>Vehicle Repairs</h3>
+          <p>Vehicle maintenance and repairs.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">🏠</div>
+          <h3>Home Repairs</h3>
+          <p>General household repair services.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">📱</div>
+          <h3>Phone & Computer</h3>
+          <p>Device troubleshooting and repairs.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">🧰</div>
+          <h3>Appliance Repair</h3>
+          <p>Repair and maintenance of appliances.</p>
+        </div>
+
+        <div class="service">
+          <div class="service-icon">➕</div>
+          <h3>Other Services</h3>
+          <p>Tell us what you need fixed.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">How Mule QuickFix works</h2>
+
+      <div class="how">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <div>
+            <h3>Request a service</h3>
+            <p>
+              Describe your problem, location and the budget you are
+              thinking of spending.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div>
+            <h3>A technician accepts</h3>
+            <p>
+              Available technicians can view suitable jobs and accept
+              the ones they want.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div>
+            <h3>Get connected</h3>
+            <p>
+              The customer's phone number remains protected. The
+              technician contacts the Mule QuickFix manager to obtain it.
+            </p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">4</div>
+          <div>
+            <h3>Complete the job</h3>
+            <p>
+              The technician and customer agree on the final price and
+              the service is completed.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="technician-card">
+        <h2>Are you a technician?</h2>
+
+        <p>
+          Join Mule QuickFix, choose the services you provide and start
+          finding jobs in your area. No application process is required.
+        </p>
+
+        <a href="technician-register.html" class="outline-btn">
+          JOIN AS TECHNICIAN
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="commission">
+        <h3>💰 Simple commission system</h3>
+
+        <p>
+          Mule QuickFix operates on a <strong>15% commission</strong>
+          from the final agreed job price. The commission is calculated
+          automatically and recorded against the technician's completed job.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <strong>Mule QuickFix</strong>
+
+    <div class="small">
+      Reliable services. Better connections.
+    </div>
+
+    <div class="small">
+      © 2026 Mule QuickFix. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    function goToLogin() {
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

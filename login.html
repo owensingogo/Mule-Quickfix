@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b5cff">
+<title>Login | Mule QuickFix</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+  min-height:100vh;
+}
+
+.header{
+  background:#0b5cff;
+  color:#fff;
+  padding:24px 18px;
+  text-align:center;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:800;
+}
+
+.subtitle{
+  margin-top:5px;
+  font-size:14px;
+  opacity:.9;
+}
+
+.container{
+  width:100%;
+  max-width:480px;
+  margin:28px auto;
+  padding:0 18px;
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:26px 20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+}
+
+h1{
+  font-size:26px;
+  margin-bottom:7px;
+}
+
+.intro{
+  color:#687386;
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  margin:15px 0 7px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d8dee9;
+  border-radius:11px;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#0b5cff;
+}
+
+button{
+  width:100%;
+  border:0;
+  padding:15px;
+  border-radius:12px;
+  background:#0b5cff;
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  margin-top:22px;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+.message{
+  display:none;
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.success{
+  background:#e9f8ef;
+  color:#176b39;
+}
+
+.error{
+  background:#fdecec;
+  color:#a52323;
+}
+
+.links{
+  text-align:center;
+  margin-top:20px;
+  font-size:14px;
+  line-height:2;
+}
+
+.links a{
+  color:#0b5cff;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.back{
+  display:block;
+  text-align:center;
+  margin-top:18px;
+  color:#687386;
+  text-decoration:none;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">🔧 Mule QuickFix</div>
+  <div class="subtitle">Get the right technician for the job.</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>Welcome Back</h1>
+
+    <p class="intro">
+      Login to request services, manage your jobs,
+      or access your Mule QuickFix account.
+    </p>
+
+    <form id="loginForm">
+
+      <label for="email">Email Address</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        autocomplete="email"
+        required
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit" id="loginBtn">
+        LOGIN
+      </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="links">
+      Don't have a customer account?
+      <a href="register.html">Create Account</a>
+      <br>
+
+      Want to work as a technician?
+      <a href="technician-register.html">Join as Technician</a>
+    </div>
+
+    <a class="back" href="index.html">
+      ← Back to Mule QuickFix
+    </a>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import { auth, db } from "./firebase.js";
+
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  ref,
+  get
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+const form =
+  document.getElementById("loginForm");
+
+const button =
+  document.getElementById("loginBtn");
+
+const message =
+  document.getElementById("message");
+
+
+function showMessage(text,type){
+
+  message.textContent = text;
+
+  message.className =
+    "message " + type;
+
+  message.style.display = "block";
+
+}
+
+
+form.addEventListener("submit", async (e)=>{
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+
+  button.disabled = true;
+  button.textContent = "LOGGING IN...";
+
+
+  try{
+
+    const credential =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+
+    const user =
+      credential.user;
+
+
+    const snapshot =
+      await get(
+        ref(db,"users/" + user.uid)
+      );
+
+
+    if(!snapshot.exists()){
+
+      await auth.signOut();
+
+      showMessage(
+        "Your account profile could not be found.",
+        "error"
+      );
+
+      button.disabled = false;
+      button.textContent = "LOGIN";
+
+      return;
+    }
+
+
+    const profile =
+      snapshot.val();
+
+
+    if(profile.active === false){
+
+      await auth.signOut();
+
+      showMessage(
+        "Your Mule QuickFix account has been deactivated. Please contact management.",
+        "error"
+      );
+
+      button.disabled = false;
+      button.textContent = "LOGIN";
+
+      return;
+    }
+
+
+    showMessage(
+      "Login successful. Opening your account...",
+      "success"
+    );
+
+
+    /*
+      ROLE-BASED REDIRECTION
+    */
+
+    if(profile.role === "customer"){
+
+      window.location.href =
+        "customer/dashboard.html";
+
+    }
+
+    else if(profile.role === "technician"){
+
+      window.location.href =
+        "technician/dashboard.html";
+
+    }
+
+    else if(profile.role === "ceo"){
+
+      window.location.href =
+        "ceo/dashboard.html";
+
+    }
+
+    else{
+
+      await auth.signOut();
+
+      showMessage(
+        "Your account role is not configured correctly. Please contact management.",
+        "error"
+      );
+
+      button.disabled = false;
+      button.textContent = "LOGIN";
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    let text =
+      "Login failed. Please try again.";
+
+
+    if(
+      error.code ===
+      "auth/invalid-credential"
+    ){
+
+      text =
+        "Incorrect email or password.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/user-not-found"
+    ){
+
+      text =
+        "No account was found with this email.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/wrong-password"
+    ){
+
+      text =
+        "Incorrect password.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/invalid-email"
+    ){
+
+      text =
+        "Please enter a valid email address.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/network-request-failed"
+    ){
+
+      text =
+        "Network error. Check your internet connection.";
+
+    }
+
+
+    showMessage(text,"error");
+
+    button.disabled = false;
+    button.textContent = "LOGIN";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Create Account | Mule QuickFix</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0b5cff;
+      color: white;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .tagline {
+      font-size: 12px;
+      margin-top: 4px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 25px 15px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 23px 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .intro {
+      color: #697589;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d8dee8;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+      background: white;
+    }
+
+    input:focus {
+      border-color: #0b5cff;
+      box-shadow: 0 0 0 3px rgba(11,92,255,.08);
+    }
+
+    .phone-note {
+      color: #7a8494;
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-right: 65px;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      border: none;
+      background: transparent;
+      color: #0b5cff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px;
+      cursor: pointer;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 5px 0 18px;
+      font-size: 12px;
+      color: #697589;
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: 17px;
+      height: 17px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .terms a {
+      color: #0b5cff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #0b5cff;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .submit-btn:disabled {
+      background: #aeb8c8;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 9px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      background: #ffeded;
+      color: #b42318;
+    }
+
+    .message.success {
+      background: #e9f8ef;
+      color: #176b3a;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #697589;
+    }
+
+    .login-link a {
+      color: #0b5cff;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .technician-box {
+      margin-top: 18px;
+      padding: 14px;
+      background: #f1f6ff;
+      border-radius: 11px;
+      text-align: center;
+    }
+
+    .technician-box p {
+      font-size: 12px;
+      color: #687386;
+      margin-bottom: 8px;
+    }
+
+    .technician-box a {
+      color: #0b5cff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .security-note {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f7f9fc;
+      color: #687386;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .loading-text {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      color: #687386;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Mule QuickFix</div>
+  <div class="tagline">Reliable technicians. Real solutions.</div>
+</header>
+
+<main>
+
+  <div class="card">
+
+    <h1>Create Customer Account</h1>
+
+    <p class="intro">
+      Create your Mule QuickFix account and request a trusted technician
+      for the service you need.
+    </p>
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+    <form id="registerForm">
+
+      <div class="form-group">
+
+        <label for="name">
+          Full Name
+        </label>
+
+        <input
+          id="name"
+          type="text"
+          autocomplete="name"
+          placeholder="Enter your full name"
+          maxlength="80"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="phone">
+          Phone Number
+        </label>
+
+        <input
+          id="phone"
+          type="tel"
+          autocomplete="tel"
+          placeholder="e.g. 0971234567"
+          maxlength="20"
+          required
+        >
+
+        <div class="phone-note">
+          Use the phone number where Mule QuickFix can reach you.
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+          placeholder="Enter your email address"
+          maxlength="120"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            id="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+            minlength="6"
+            maxlength="128"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-password"
+            id="showPassword"
+          >
+            Show
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            id="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Repeat your password"
+            minlength="6"
+            maxlength="128"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-password"
+            id="showConfirmPassword"
+          >
+            Show
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <label class="terms">
+
+        <input
+          id="agree"
+          type="checkbox"
+          required
+        >
+
+        <span>
+          I agree to provide accurate information and use
+          Mule QuickFix responsibly.
+        </span>
+
+      </label>
+
+
+      <button
+        type="submit"
+        class="submit-btn"
+        id="registerBtn"
+      >
+        CREATE ACCOUNT
+      </button>
+
+
+      <div
+        id="loadingText"
+        class="loading-text"
+      >
+        Creating your account...
+      </div>
+
+    </form>
+
+
+    <div class="login-link">
+      Already have an account?
+      <a href="login.html">
+        Login
+      </a>
+    </div>
+
+
+    <div class="technician-box">
+
+      <p>
+        Are you a technician looking for jobs?
+      </p>
+
+      <a href="technician/register.html">
+        JOIN AS A TECHNICIAN →
+      </a>
+
+    </div>
+
+
+    <div class="security-note">
+      Your phone number is stored in your account profile.
+      It is not included in public service requests and is not
+      automatically shown to technicians.
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+  import {
+    auth,
+    db
+  } from "./firebase.js";
+
+
+  import {
+    createUserWithEmailAndPassword,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+  import {
+    ref,
+    set,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+  const form =
+    document.getElementById("registerForm");
+
+  const nameInput =
+    document.getElementById("name");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  const emailInput =
+    document.getElementById("email");
+
+  const passwordInput =
+    document.getElementById("password");
+
+  const confirmPasswordInput =
+    document.getElementById("confirmPassword");
+
+  const agreeInput =
+    document.getElementById("agree");
+
+  const registerBtn =
+    document.getElementById("registerBtn");
+
+  const loadingText =
+    document.getElementById("loadingText");
+
+  const message =
+    document.getElementById("message");
+
+
+  function showMessage(
+    text,
+    type
+  ) {
+
+    message.textContent = text;
+
+    message.className =
+      "message " + type;
+
+    message.style.display =
+      "block";
+
+  }
+
+
+  function cleanPhone(phone) {
+
+    return phone
+      .trim()
+      .replace(/\s+/g, "");
+
+  }
+
+
+  function validZambianPhone(phone) {
+
+    return /^(?:0|260)[79][0-9]{8,9}$/.test(
+      phone
+    );
+
+  }
+
+
+  function firebaseError(error) {
+
+    switch (error.code) {
+
+      case "auth/email-already-in-use":
+        return "An account with this email already exists.";
+
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+
+      case "auth/weak-password":
+        return "Your password is too weak. Use at least 6 characters.";
+
+      case "auth/network-request-failed":
+        return "Network error. Please check your internet connection.";
+
+      case "auth/operation-not-allowed":
+        return "Email/password registration is not enabled in Firebase.";
+
+      default:
+        return "Unable to create your account. Please try again.";
+
+    }
+
+  }
+
+
+  function setLoading(
+    loading
+  ) {
+
+    registerBtn.disabled =
+      loading;
+
+    loadingText.style.display =
+      loading
+        ? "block"
+        : "none";
+
+    registerBtn.textContent =
+      loading
+        ? "CREATING ACCOUNT..."
+        : "CREATE ACCOUNT";
+
+  }
+
+
+  document
+    .getElementById("showPassword")
+    .addEventListener(
+      "click",
+      () => {
+
+        const isPassword =
+          passwordInput.type === "password";
+
+        passwordInput.type =
+          isPassword
+            ? "text"
+            : "password";
+
+        document
+          .getElementById("showPassword")
+          .textContent =
+            isPassword
+              ? "Hide"
+              : "Show";
+
+      }
+    );
+
+
+  document
+    .getElementById("showConfirmPassword")
+    .addEventListener(
+      "click",
+      () => {
+
+        const isPassword =
+          confirmPasswordInput.type === "password";
+
+        confirmPasswordInput.type =
+          isPassword
+            ? "text"
+            : "password";
+
+        document
+          .getElementById("showConfirmPassword")
+          .textContent =
+            isPassword
+              ? "Hide"
+              : "Show";
+
+      }
+    );
+
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      message.style.display =
+        "none";
+
+
+      const name =
+        nameInput.value.trim();
+
+      const phone =
+        cleanPhone(
+          phoneInput.value
+        );
+
+      const email =
+        emailInput.value
+          .trim()
+          .toLowerCase();
+
+      const password =
+        passwordInput.value;
+
+      const confirmPassword =
+        confirmPasswordInput.value;
+
+
+      if (
+        name.length < 2
+      ) {
+
+        showMessage(
+          "Please enter your full name.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !validZambianPhone(phone)
+      ) {
+
+        showMessage(
+          "Please enter a valid Zambian mobile number.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        password.length < 6
+      ) {
+
+        showMessage(
+          "Password must contain at least 6 characters.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        password !==
+        confirmPassword
+      ) {
+
+        showMessage(
+          "The passwords do not match.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !agreeInput.checked
+      ) {
+
+        showMessage(
+          "Please accept the terms before creating your account.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      setLoading(true);
+
+
+      let createdUser = null;
+
+
+      try {
+
+        /*
+         * STEP 1
+         * Create the Firebase Authentication account.
+         */
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        createdUser =
+          credential.user;
+
+
+        /*
+         * STEP 2
+         * Set the user's display name.
+         */
+
+        await updateProfile(
+          createdUser,
+          {
+            displayName: name
+          }
+        );
+
+
+        /*
+         * STEP 3
+         * Create the customer's profile.
+         *
+         * IMPORTANT:
+         * The role is fixed to "customer".
+         * The customer cannot select their own role.
+         */
+
+        const customerProfile = {
+
+          uid:
+            createdUser.uid,
+
+          name:
+            name,
+
+          phone:
+            phone,
+
+          email:
+            email,
+
+          role:
+            "customer",
+
+          active:
+            true,
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+
+        };
+
+
+        await set(
+          ref(
+            db,
+            "users/" +
+            createdUser.uid
+          ),
+          customerProfile
+        );
+
+
+        /*
+         * STEP 4
+         * Registration complete.
+         */
+
+        showMessage(
+          "Account created successfully. Redirecting you to login...",
+          "success"
+        );
+
+
+        form.reset();
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "login.html";
+
+          },
+          1200
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Registration error:",
+          error
+        );
+
+
+        /*
+         * If Firebase Authentication succeeded
+         * but the database profile failed, do not
+         * pretend registration was successful.
+         */
+
+        if (createdUser) {
+
+          showMessage(
+            "Your login account was created, but your customer profile could not be completed. Please contact Mule QuickFix management before trying again.",
+            "error"
+          );
+
+        } else {
+
+          showMessage(
+            firebaseError(error),
+            "error"
+          );
+
+        }
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
