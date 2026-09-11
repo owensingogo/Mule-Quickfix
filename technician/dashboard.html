@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b5cff">
+<title>Mule QuickFix | Technician</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f4f7fb;font-family:Arial;color:#172033}
+header{background:#0b5cff;color:#fff;padding:16px;position:sticky;top:0;z-index:5}
+.head{max-width:800px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:20px;font-weight:800}
+.logout{border:0;border-radius:8px;padding:9px 12px;color:#0b5cff;font-weight:bold}
+main{max-width:800px;margin:auto;padding:15px}
+.hero{background:#0b5cff;color:#fff;border-radius:16px;padding:20px;margin-bottom:15px}
+.hero h1{margin:0 0 6px;font-size:24px}
+.card{background:#fff;border:1px solid #e5e9f0;border-radius:15px;padding:16px;margin-bottom:15px;box-shadow:0 2px 10px #0001}
+h2{font-size:18px;margin:0 0 13px}
+.profile{display:flex;align-items:center;gap:12px}
+.avatar{width:52px;height:52px;border-radius:50%;background:#eaf1ff;color:#0b5cff;display:grid;place-items:center;font-size:22px;font-weight:bold}
+.name{font-size:17px;font-weight:bold}
+.active{display:inline-block;background:#e8f7ee;color:#168346;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:bold;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#f6f8fb;border-radius:10px;text-align:center;padding:12px}
+.stat b{display:block;color:#0b5cff;font-size:18px}
+.stat small{color:#667085}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{background:#edf3ff;color:#0b5cff;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:bold}
+.job{border:1px solid #e0e5ed;border-radius:12px;padding:13px;margin-bottom:10px}
+.job:last-child{margin-bottom:0}
+.jobtop{display:flex;justify-content:space-between;gap:8px}
+.badge{background:#eef3ff;color:#0b5cff;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:bold}
+.job p{font-size:13px;line-height:1.45}
+.budget{background:#f6f8fb;border-radius:9px;padding:10px;font-size:12px}
+.budget b{font-size:17px;color:#0b5cff}
+button,.btn{border:0;border-radius:8px;padding:10px 12px;font-weight:bold;text-decoration:none;display:inline-block}
+.blue{background:#0b5cff;color:#fff}
+.green{background:#168346;color:#fff}
+.dark{background:#172033;color:#fff}
+.input{width:100%;padding:11px;border:1px solid #ccd3df;border-radius:8px;margin:8px 0}
+.manager{background:#fff7df;border:1px solid #efd48a;border-radius:10px;padding:11px;font-size:12px}
+.manager a{color:#0b5cff;font-weight:bold;text-decoration:none}
+.notice{background:#edf6ff;color:#174ea6;border-radius:9px;padding:10px;font-size:12px;line-height:1.45}
+.empty{text-align:center;padding:18px;color:#667085;font-size:13px}
+.error{background:#fff0ef;color:#b42318;padding:11px;border-radius:9px;font-size:13px}
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}.hero h1{font-size:21px}}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="head">
+<div>
+<div class="brand">Mule QuickFix</div>
+<div style="font-size:11px">Technician Office</div>
+</div>
+<button class="logout" id="logout">Logout</button>
+</div>
+</header>
+
+<main>
+
+<div class="hero">
+<h1 id="welcome">Welcome</h1>
+<div>Manage your jobs and earnings professionally.</div>
+</div>
+
+<div class="card">
+<div class="profile">
+<div class="avatar" id="avatar">T</div>
+<div>
+<div class="name" id="name">Loading...</div>
+<span class="active">ACTIVE</span>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2>My Performance</h2>
+<div class="stats">
+<div class="stat"><b id="completed">0</b><small>Completed</small></div>
+<div class="stat"><b id="owed">K0</b><small>Commission Owed</small></div>
+<div class="stat"><b id="paid">K0</b><small>Commission Paid</small></div>
+</div>
+</div>
+
+<div class="card">
+<h2>My Services</h2>
+<div class="tags" id="services">Loading...</div>
+</div>
+
+<div class="card">
+<h2>Available Jobs</h2>
+<div class="notice">
+Customer phone numbers are private. Accept the job first, then contact Mule QuickFix management if you need the customer's number.
+</div>
+<div id="available"><div class="empty">Loading...</div></div>
+</div>
+
+<div class="card">
+<h2>My Jobs</h2>
+<div id="jobs"><div class="empty">Loading...</div></div>
+</div>
+
+<div class="card">
+<h2>Commission</h2>
+<div class="notice">
+Mule QuickFix commission is <b>15%</b> of the final agreed job price.
+</div>
+<p><b>Total commission owed:</b> <span id="totalOwed">K0.00</span></p>
+<p><b>Total commission paid:</b> <span id="totalPaid">K0.00</span></p>
+</div>
+
+</main>
+
+<script type="module">
+
+import{auth,db}from"../firebase.js";
+
+import{
+onAuthStateChanged,
+signOut
+}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import{
+ref,
+get,
+set,
+update,
+serverTimestamp
+}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+const RATE=.15;
+const M1="0972632701";
+const M2="0768217115";
+
+let uid="";
+let tech=null;
+
+const $=x=>document.getElementById(x);
+
+const money=x=>"K"+Number(x||0).toFixed(2);
+
+const esc=x=>String(x??"").replace(/[&<>"']/g,m=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#039;"
+}[m]));
+
+onAuthStateChanged(auth,async user=>{
+
+if(!user){
+location.href="../login.html";
+return;
+}
+
+uid=user.uid;
+
+try{
+
+const s=await get(ref(db,"users/"+uid));
+
+if(!s.exists()||s.val().role!=="technician"){
+alert("Technician account not found.");
+location.href="../login.html";
+return;
+}
+
+tech=s.val();
+
+if(tech.active===false){
+alert("Your account has been deactivated.");
+await signOut(auth);
+return;
+}
+
+showProfile();
+await loadAvailable();
+await loadJobs();
+
+}catch(e){
+
+console.error(e);
+
+document.querySelector("main").innerHTML=
+'<div class="error">Unable to load your dashboard. Check your internet connection and try again.</div>';
+}
+
+});
+
+function showProfile(){
+
+let n=tech.name||"Technician";
+
+$("welcome").textContent="Welcome, "+n;
+$("name").textContent=n;
+$("avatar").textContent=n.charAt(0).toUpperCase();
+
+let services=tech.services||[];
+
+$("services").innerHTML=services.length
+?services.map(x=>`<span class="tag">${esc(x)}</span>`).join("")
+:"<span class='empty'>No services registered.</span>";
+
+$("completed").textContent=Number(tech.jobsCompleted||0);
+$("owed").textContent=money(tech.commissionOwed);
+$("paid").textContent=money(tech.commissionPaid);
+$("totalOwed").textContent=money(tech.commissionOwed);
+$("totalPaid").textContent=money(tech.commissionPaid);
+}
+
+async function loadAvailable(){
+
+let box=$("available");
+let s=await get(ref(db,"serviceRequests"));
+
+if(!s.exists()){
+box.innerHTML='<div class="empty">No jobs available.</div>';
+return;
+}
+
+let services=(tech.services||[]).map(x=>String(x).toLowerCase());
+let list=[];
+
+Object.entries(s.val()).forEach(([id,j])=>{
+
+if(!j||j.status!=="pending")return;
+
+let service=String(j.serviceType||"").toLowerCase();
+
+if(services.length&&!services.includes(service))return;
+
+list.push({id,...j});
+});
+
+if(!list.length){
+box.innerHTML='<div class="empty">No matching jobs available right now.</div>';
+return;
+}
+
+list.sort((a,b)=>Number(b.createdAt||0)-Number(a.createdAt||0));
+
+box.innerHTML=list.map(j=>`
+
+<div class="job">
+
+<div class="jobtop">
+<b>${esc(j.serviceType)}</b>
+<span class="badge">AVAILABLE</span>
+</div>
+
+<p><b>Problem:</b><br>${esc(j.description)}</p>
+
+<p><b>Location:</b><br>${esc(j.location)}</p>
+
+<div class="budget">
+Suggested budget<br>
+<b>${money(j.suggestedBudget)}</b>
+</div>
+
+<br>
+
+<button class="blue" onclick="acceptJob('${j.id}')">
+Accept Job
+</button>
+
+</div>
+
+`).join("");
+}
+
+window.acceptJob=async id=>{
+
+try{
+
+let s=await get(ref(db,"serviceRequests/"+id));
+
+if(!s.exists()){
+alert("Job no longer exists.");
+return;
+}
+
+let j=s.val();
+
+if(j.status!=="pending"){
+alert("This job has already been taken.");
+await loadAvailable();
+return;
+}
+
+await set(ref(db,"jobs/"+id),{
+jobId:id,
+requestId:id,
+customerId:j.customerId,
+technicianId:uid,
+serviceType:j.serviceType,
+description:j.description,
+location:j.location,
+suggestedBudget:Number(j.suggestedBudget||0),
+status:"accepted",
+finalPrice:null,
+commissionAmount:0,
+commissionStatus:"pending",
+technicianNet:0,
+createdAt:j.createdAt||serverTimestamp(),
+acceptedAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+});
+
+await update(ref(db,"serviceRequests/"+id),{
+status:"accepted",
+technicianId:uid,
+updatedAt:serverTimestamp()
+});
+
+alert("Job accepted successfully.");
+
+await loadAvailable();
+await loadJobs();
+
+}catch(e){
+
+console.error(e);
+alert("Unable to accept this job.");
+}
+
+};
+
+async function loadJobs(){
+
+let box=$("jobs");
+let s=await get(ref(db,"jobs"));
+
+if(!s.exists()){
+box.innerHTML='<div class="empty">You have no jobs yet.</div>';
+return;
+}
+
+let list=[];
+
+Object.entries(s.val()).forEach(([id,j])=>{
+
+if(j&&j.technicianId===uid)
+list.push({id,...j});
+
+});
+
+if(!list.length){
+box.innerHTML='<div class="empty">You have no accepted jobs yet.</div>';
+return;
+}
+
+list.sort((a,b)=>
+Number(b.acceptedAt||b.createdAt||0)-
+Number(a.acceptedAt||a.createdAt||0)
+);
+
+box.innerHTML=list.map(renderJob).join("");
+
+for(let j of list) await contact(j.jobId);
+}
+
+function renderJob(j){
+
+let action="";
+
+if(j.status==="accepted"){
+
+action=`
+<button class="green"
+onclick="startJob('${j.jobId}')">
+Start Job
+</button>`;
+}
+
+if(j.status==="in_progress"){
+
+action=`
+<input class="input"
+id="price-${j.jobId}"
+type="number"
+min="0"
+step="0.01"
+placeholder="Final agreed price in Kwacha">
+
+<button class="green"
+onclick="completeJob('${j.jobId}')">
+Complete Job
+</button>`;
+}
+
+return`
+
+<div class="job">
+
+<div class="jobtop">
+<b>${esc(j.serviceType)}</b>
+<span class="badge">
+${esc((j.status||"").replace("_"," ").toUpperCase())}
+</span>
+</div>
+
+<p><b>Problem:</b><br>${esc(j.description)}</p>
+
+<p><b>Location:</b><br>${esc(j.location)}</p>
+
+<div class="budget">
+Suggested budget<br>
+<b>${money(j.suggestedBudget)}</b>
+</div>
+
+<div id="contact-${j.jobId}"></div>
+
+<div class="manager">
+<b>Customer contact</b>
+Contact Mule QuickFix management first.<br><br>
+<a class="btn blue" href="tel:${M1}">Call ${M1}</a>
+<a class="btn dark" href="tel:${M2}">Call ${M2}</a>
+</div>
+
+${j.finalPrice!=null?`
+
+<p><b>Final price:</b> ${money(j.finalPrice)}</p>
+<p><b>15% commission:</b> ${money(j.commissionAmount)}</p>
+<p><b>Technician amount:</b> ${money(j.technicianNet)}</p>
+
+`:""}
+
+<br>${action}
+
+</div>`;
+}
+
+window.startJob=async id=>{
+
+try{
+
+let s=await get(ref(db,"jobs/"+id));
+
+if(!s.exists()||s.val().technicianId!==uid){
+alert("You are not assigned to this job.");
+return;
+}
+
+if(s.val().status!=="accepted"){
+alert("This job cannot be started.");
+return;
+}
+
+await update(ref(db,"jobs/"+id),{
+status:"in_progress",
+startedAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+});
+
+await update(
+ref(db,"serviceRequests/"+s.val().requestId),
+{
+status:"in_progress",
+updatedAt:serverTimestamp()
+}
+);
+
+alert("Job started.");
+await loadJobs();
+
+}catch(e){
+
+console.error(e);
+alert("Unable to start job.");
+}
+};
+
+window.completeJob=async id=>{
+
+let input=$("price-"+id);
+let price=Number(input?.value||0);
+
+if(price<=0){
+alert("Enter the final agreed price.");
+return;
+}
+
+if(!confirm(
+"Confirm final agreed price of "+money(price)+"?"
+))return;
+
+try{
+
+let s=await get(ref(db,"jobs/"+id));
+
+if(!s.exists()||s.val().technicianId!==uid){
+alert("You are not assigned to this job.");
+return;
+}
+
+let j=s.val();
+
+if(j.status!=="in_progress"){
+alert("This job is not in progress.");
+return;
+}
+
+let commission=price*RATE;
+let net=price-commission;
+
+await update(ref(db,"jobs/"+id),{
+status:"completed",
+finalPrice:price,
+commissionAmount:commission,
+commissionStatus:"owed",
+technicianNet:net,
+completedAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+});
+
+await update(
+ref(db,"serviceRequests/"+j.requestId),
+{
+status:"completed",
+updatedAt:serverTimestamp()
+}
+);
+
+let p=await get(ref(db,"users/"+uid));
+let u=p.val()||{};
+
+await update(ref(db,"users/"+uid),{
+commissionOwed:Number(u.commissionOwed||0)+commission,
+jobsCompleted:Number(u.jobsCompleted||0)+1,
+updatedAt:serverTimestamp()
+});
+
+tech.commissionOwed=
+Number(tech.commissionOwed||0)+commission;
+
+tech.jobsCompleted=
+Number(tech.jobsCompleted||0)+1;
+
+showProfile();
+
+alert(
+"Job completed successfully.\n\n"+
+"Final price: "+money(price)+
+"\nCommission: "+money(commission)+
+"\nYour amount: "+money(net)
+);
+
+await loadJobs();
+
+}catch(e){
+
+console.error(e);
+alert("Unable to complete the job.");
+}
+};
+
+async function contact(id){
+
+let box=$("contact-"+id);
+if(!box)return;
+
+try{
+
+let s=await get(
+ref(db,"contactReleases/"+id)
+);
+
+if(
+s.exists()&&
+s.val().released===true
+){
+
+let phone=s.val().customerPhone;
+
+box.innerHTML=`
+<div class="notice">
+<b>Customer number released</b><br>
+<a class="btn blue" href="tel:${esc(phone)}">
+Call ${esc(phone)}
+</a>
+</div><br>
+`;
+
+}else{
+
+box.innerHTML=`
+<div class="notice">
+Customer number is not released yet.
+Please call Mule QuickFix management.
+</div><br>
+`;
+}
+
+}catch(e){
+
+box.innerHTML="";
+}
+}
+
+$("logout").onclick=async()=>{
+
+if(!confirm("Logout from Mule QuickFix?"))return;
+
+await signOut(auth);
+location.href="../login.html";
+};
+
+</script>
+
+</body>
+  </html>
