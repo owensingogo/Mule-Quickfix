@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#0b5cff">
+  <meta name="description" content="Mule QuickFix Customer Dashboard">
+
+  <title>Customer Dashboard | Mule QuickFix</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #0b5cff, #1749c6);
+      color: white;
+      padding: 18px 18px 26px;
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+      box-shadow: 0 5px 18px rgba(11, 92, 255, 0.18);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: .2px;
+    }
+
+    .brand span {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      opacity: .85;
+      margin-top: 3px;
+    }
+
+    .logout-btn {
+      border: 1px solid rgba(255,255,255,.4);
+      background: rgba(255,255,255,.12);
+      color: white;
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .welcome {
+      max-width: 700px;
+      margin: 25px auto 0;
+    }
+
+    .welcome small {
+      opacity: .85;
+      font-size: 13px;
+    }
+
+    .welcome h1 {
+      margin-top: 5px;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .welcome p {
+      margin-top: 8px;
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    /* MAIN */
+    .container {
+      width: 92%;
+      max-width: 700px;
+      margin: 20px auto 40px;
+    }
+
+    /* QUICK ACTION */
+    .request-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 5px 20px rgba(23, 32, 51, .06);
+      margin-bottom: 20px;
+    }
+
+    .request-card h2 {
+      font-size: 18px;
+      margin-bottom: 7px;
+    }
+
+    .request-card p {
+      font-size: 13px;
+      color: #687386;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .request-btn {
+      width: 100%;
+      border: none;
+      background: #0b5cff;
+      color: white;
+      padding: 15px;
+      border-radius: 13px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 7px 16px rgba(11, 92, 255, .2);
+    }
+
+    .request-btn:active {
+      transform: scale(.99);
+    }
+
+    /* INFO GRID */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .info-box {
+      background: white;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
+    }
+
+    .info-icon {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .info-box strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .info-box span {
+      display: block;
+      font-size: 12px;
+      color: #768094;
+      margin-top: 4px;
+    }
+
+    /* SECTION */
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 13px;
+    }
+
+    .section-title h2 {
+      font-size: 19px;
+    }
+
+    .section-title span {
+      font-size: 12px;
+      color: #0b5cff;
+      font-weight: 600;
+    }
+
+    /* REQUESTS */
+    #requests {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .request-item {
+      background: white;
+      border-radius: 17px;
+      padding: 17px;
+      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
+      border-left: 4px solid #0b5cff;
+    }
+
+    .request-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .service-name {
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+      text-transform: capitalize;
+    }
+
+    .status.pending {
+      background: #fff4d6;
+      color: #996900;
+    }
+
+    .status.accepted {
+      background: #e4f0ff;
+      color: #0755bd;
+    }
+
+    .status.in-progress {
+      background: #e8e7ff;
+      color: #5147a9;
+    }
+
+    .status.completed {
+      background: #e1f8eb;
+      color: #08733c;
+    }
+
+    .status.cancelled {
+      background: #ffe5e5;
+      color: #b42318;
+    }
+
+    .description {
+      color: #687386;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 10px 0 13px;
+    }
+
+    .request-details {
+      display: grid;
+      gap: 8px;
+      border-top: 1px solid #edf0f5;
+      padding-top: 12px;
+    }
+
+    .detail {
+      display: flex;
+      gap: 9px;
+      font-size: 12px;
+      color: #687386;
+    }
+
+    .detail b {
+      color: #283246;
+      font-weight: 600;
+    }
+
+    .budget {
+      font-weight: 700;
+      color: #0b5cff !important;
+    }
+
+    .date {
+      margin-top: 11px;
+      font-size: 10px;
+      color: #98a1b2;
+    }
+
+    /* LOADING */
+    .loading {
+      background: white;
+      padding: 22px;
+      text-align: center;
+      border-radius: 16px;
+      color: #758096;
+      font-size: 13px;
+    }
+
+    /* EMPTY */
+    .empty {
+      background: white;
+      border-radius: 17px;
+      padding: 35px 20px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .empty h3 {
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .empty p {
+      font-size: 13px;
+      color: #758096;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      color: #8a94a6;
+      font-size: 11px;
+      padding: 10px 20px 25px;
+    }
+
+    footer strong {
+      color: #0b5cff;
+    }
+
+    @media (min-width: 600px) {
+      .container {
+        margin-top: 28px;
+      }
+
+      .header {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+
+    <div class="topbar">
+      <div class="brand">
+        🛠️ Mule QuickFix
+        <span>Reliable help. Right when you need it.</span>
+      </div>
+
+      <button class="logout-btn" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+
+    <div class="welcome">
+      <small>Welcome back</small>
+      <h1 id="customerName">Customer</h1>
+      <p>What needs fixing today?</p>
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <!-- REQUEST SERVICE -->
+    <section class="request-card">
+
+      <h2>Need a technician?</h2>
+
+      <p>
+        Tell us what you need fixed and your location.
+        A suitable technician can then take up your job.
+      </p>
+
+      <button
+        class="request-btn"
+        onclick="window.location.href='request-service.html'">
+        + REQUEST A SERVICE
+      </button>
+
+    </section>
+
+
+    <!-- QUICK INFO -->
+    <section class="info-grid">
+
+      <div class="info-box">
+        <div class="info-icon">🔧</div>
+        <strong>Professional Help</strong>
+        <span>Connect with technicians</span>
+      </div>
+
+      <div class="info-box">
+        <div class="info-icon">📍</div>
+        <strong>Local Service</strong>
+        <span>Get help where you are</span>
+      </div>
+
+      <div class="info-box">
+        <div class="info-icon">💬</div>
+        <strong>Easy Process</strong>
+        <span>Request and get connected</span>
+      </div>
+
+      <div class="info-box">
+        <div class="info-icon">🤝</div>
+        <strong>Direct Payment</strong>
+        <span>Pay the technician directly</span>
+      </div>
+
+    </section>
+
+
+    <!-- MY REQUESTS -->
+    <section>
+
+      <div class="section-title">
+        <h2>My Requests</h2>
+        <span id="requestCount">0 requests</span>
+      </div>
+
+      <div id="requests">
+        <div class="loading">
+          Loading your requests...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    <strong>Mule QuickFix</strong><br>
+    Reliable help. Right when you need it.
+  </footer>
+
+
+  <!-- FIREBASE -->
+  <script type="module">
+
+    import { auth, db } from "../firebase.js";
+
+    import {
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+    import {
+      ref,
+      get,
+      query,
+      orderByChild,
+      equalTo
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+    const customerName = document.getElementById("customerName");
+    const requestsBox = document.getElementById("requests");
+    const requestCount = document.getElementById("requestCount");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+
+    /* LOGOUT */
+
+    logoutBtn.addEventListener("click", async () => {
+
+      try {
+
+        await signOut(auth);
+
+        window.location.href = "../login.html";
+
+      } catch (error) {
+
+        alert("Unable to log out. Please try again.");
+
+      }
+
+    });
+
+
+    /* FORMAT DATE */
+
+    function formatDate(timestamp) {
+
+      if (!timestamp) return "Date unavailable";
+
+      const date = new Date(timestamp);
+
+      if (isNaN(date.getTime())) {
+        return "Date unavailable";
+      }
+
+      return date.toLocaleDateString("en-ZM", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+
+    }
+
+
+    /* FORMAT STATUS */
+
+    function statusClass(status) {
+
+      return String(status || "pending")
+        .toLowerCase()
+        .replace(/\s+/g, "-");
+
+    }
+
+
+    function statusText(status) {
+
+      return String(status || "pending")
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, letter => letter.toUpperCase());
+
+    }
+
+
+    /* LOAD CUSTOMER */
+
+    async function loadCustomer(user) {
+
+      const userRef = ref(db, `users/${user.uid}`);
+
+      const snapshot = await get(userRef);
+
+      if (!snapshot.exists()) {
+
+        alert("Your account profile could not be found.");
+
+        await signOut(auth);
+
+        window.location.href = "../login.html";
+
+        return;
+
+      }
+
+      const profile = snapshot.val();
+
+
+      if (profile.role !== "customer") {
+
+        alert("This account does not have customer access.");
+
+        await signOut(auth);
+
+        window.location.href = "../login.html";
+
+        return;
+
+      }
+
+
+      if (profile.active === false) {
+
+        alert("Your account has been deactivated.");
+
+        await signOut(auth);
+
+        window.location.href = "../login.html";
+
+        return;
+
+      }
+
+
+      customerName.textContent =
+        profile.name || user.displayName || "Customer";
+
+
+      await loadRequests(user.uid);
+
+    }
+
+
+    /* LOAD ONLY THIS CUSTOMER'S REQUESTS */
+
+    async function loadRequests(uid) {
+
+      requestsBox.innerHTML = `
+        <div class="loading">
+          Loading your requests...
+        </div>
+      `;
+
+
+      try {
+
+        const requestsQuery = query(
+          ref(db, "serviceRequests"),
+          orderByChild("customerId"),
+          equalTo(uid)
+        );
+
+
+        const snapshot = await get(requestsQuery);
+
+
+        if (!snapshot.exists()) {
+
+          requestCount.textContent = "0 requests";
+
+          requestsBox.innerHTML = `
+            <div class="empty">
+
+              <div class="empty-icon">🛠️</div>
+
+              <h3>No service requests yet</h3>
+
+              <p>
+                When you need a technician, create your
+                first service request here.
+              </p>
+
+            </div>
+          `;
+
+          return;
+
+        }
+
+
+        const requests = [];
+
+
+        snapshot.forEach(child => {
+
+          requests.push({
+            id: child.key,
+            ...child.val()
+          });
+
+        });
+
+
+        /* NEWEST FIRST */
+
+        requests.sort((a, b) => {
+
+          const timeA = a.createdAt || 0;
+          const timeB = b.createdAt || 0;
+
+          return timeB - timeA;
+
+        });
+
+
+        requestCount.textContent =
+          `${requests.length} ${requests.length === 1 ? "request" : "requests"}`;
+
+
+        requestsBox.innerHTML = "";
+
+
+        requests.forEach(request => {
+
+          const status = request.status || "pending";
+
+          const card = document.createElement("div");
+
+          card.className = "request-item";
+
+
+          card.innerHTML = `
+
+            <div class="request-top">
+
+              <div class="service-name">
+                ${escapeHtml(request.serviceType || "Service Request")}
+              </div>
+
+              <div class="status ${statusClass(status)}">
+                ${escapeHtml(statusText(status))}
+              </div>
+
+            </div>
+
+
+            <div class="description">
+
+              ${escapeHtml(
+                request.description || "No description provided."
+              )}
+
+            </div>
+
+
+            <div class="request-details">
+
+              <div class="detail">
+                📍
+                <span>
+                  Location:
+                  <b>
+                    ${escapeHtml(request.location || "Not provided")}
+                  </b>
+                </span>
+              </div>
+
+
+              <div class="detail">
+
+                💰
+
+                <span>
+
+                  Suggested budget:
+
+                  <b class="budget">
+
+                    K${escapeHtml(
+                      Number(request.suggestedBudget || 0)
+                        .toLocaleString()
+                    )}
+
+                  </b>
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="date">
+
+              Request ID: ${escapeHtml(request.id || "")}
+              <br>
+
+              Created:
+              ${formatDate(request.createdAt)}
+
+            </div>
+
+          `;
+
+
+          requestsBox.appendChild(card);
+
+        });
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        requestsBox.innerHTML = `
+          <div class="empty">
+
+            <div class="empty-icon">⚠️</div>
+
+            <h3>Unable to load requests</h3>
+
+            <p>
+              Please check your internet connection
+              and try again.
+            </p>
+
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    /* SECURITY: ESCAPE DATABASE TEXT */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* AUTH */
+
+    onAuthStateChanged(auth, async user => {
+
+      if (!user) {
+
+        window.location.href = "../login.html";
+
+        return;
+
+      }
+
+
+      try {
+
+        await loadCustomer(user);
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Something went wrong while loading your account."
+        );
+
+      }
+
+    });
+
+  </script>
+
+</body>
+  </html>
