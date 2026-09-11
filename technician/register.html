@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Join as Technician | Mule QuickFix</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0b5cff;
+      color: white;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .tagline {
+      font-size: 12px;
+      margin-top: 4px;
+      opacity: .9;
+    }
+
+    main {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 25px 15px 45px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 23px 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .intro {
+      color: #697589;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .info-box {
+      background: #eef4ff;
+      color: #31517f;
+      border-radius: 11px;
+      padding: 13px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #d8dee8;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #0b5cff;
+      box-shadow: 0 0 0 3px rgba(11,92,255,.08);
+    }
+
+    .small-note {
+      color: #7a8494;
+      font-size: 11px;
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-right: 65px;
+    }
+
+    .show-password {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      border: none;
+      background: transparent;
+      color: #0b5cff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px;
+      cursor: pointer;
+    }
+
+    .services-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin: 20px 0 10px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 17px;
+    }
+
+    .service-option {
+      border: 1px solid #dce2eb;
+      border-radius: 10px;
+      padding: 11px 9px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #46536a;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .service-option input {
+      width: 17px;
+      height: 17px;
+      margin: 0;
+      flex-shrink: 0;
+      accent-color: #0b5cff;
+    }
+
+    .service-option:has(input:checked) {
+      border-color: #0b5cff;
+      background: #eef4ff;
+      color: #0b5cff;
+      font-weight: 700;
+    }
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin: 8px 0 18px;
+      font-size: 12px;
+      color: #697589;
+      line-height: 1.5;
+    }
+
+    .terms input {
+      width: 17px;
+      height: 17px;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      background: #0b5cff;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .submit-btn:disabled {
+      background: #aeb8c8;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      border-radius: 9px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .message.error {
+      background: #ffeded;
+      color: #b42318;
+    }
+
+    .message.success {
+      background: #e9f8ef;
+      color: #176b3a;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #697589;
+    }
+
+    .login-link a {
+      color: #0b5cff;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .customer-link {
+      margin-top: 16px;
+      padding: 13px;
+      background: #f7f9fc;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: #697589;
+    }
+
+    .customer-link a {
+      color: #0b5cff;
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .commission-box {
+      margin-top: 17px;
+      padding: 13px;
+      background: #f7f9fc;
+      border-radius: 10px;
+      font-size: 12px;
+      color: #687386;
+      line-height: 1.5;
+    }
+
+    .commission-box strong {
+      color: #172033;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      color: #687386;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 420px) {
+      .services {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Mule QuickFix</div>
+  <div class="tagline">Work. Serve. Earn.</div>
+</header>
+
+<main>
+
+  <div class="card">
+
+    <h1>Join as a Technician</h1>
+
+    <p class="intro">
+      Create your technician account and find service jobs
+      that match your skills and operating area.
+    </p>
+
+    <div class="info-box">
+      <strong>How it works:</strong><br>
+      Join → Find a suitable job → Accept it → Contact Mule QuickFix
+      management for the customer's number → Complete the work →
+      Receive payment directly from the customer.
+    </div>
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+
+    <form id="technicianForm">
+
+      <div class="form-group">
+
+        <label for="name">
+          Full Name
+        </label>
+
+        <input
+          id="name"
+          type="text"
+          autocomplete="name"
+          placeholder="Enter your full name"
+          maxlength="80"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="phone">
+          Phone Number
+        </label>
+
+        <input
+          id="phone"
+          type="tel"
+          autocomplete="tel"
+          placeholder="e.g. 0971234567"
+          maxlength="20"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+          placeholder="Enter your email"
+          maxlength="120"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            id="password"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Create a password"
+            minlength="6"
+            maxlength="128"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-password"
+            id="showPassword"
+          >
+            Show
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            id="confirmPassword"
+            type="password"
+            autocomplete="new-password"
+            placeholder="Repeat your password"
+            minlength="6"
+            maxlength="128"
+            required
+          >
+
+          <button
+            type="button"
+            class="show-password"
+            id="showConfirmPassword"
+          >
+            Show
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="location">
+          Operating Location
+        </label>
+
+        <input
+          id="location"
+          type="text"
+          placeholder="e.g. Kitwe, Ndola, Lusaka"
+          maxlength="100"
+          required
+        >
+
+        <div class="small-note">
+          Enter the main area where you provide services.
+        </div>
+
+      </div>
+
+
+      <div class="services-title">
+        Select Your Services
+      </div>
+
+      <div class="services">
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Plumbing"
+          >
+          Plumbing
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Electrical"
+          >
+          Electrical
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="AC"
+          >
+          AC / Refrigeration
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Vehicle Repairs"
+          >
+          Vehicle Repairs
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Home Repairs"
+          >
+          Home Repairs
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Phone & Computer"
+          >
+          Phone & Computer
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Appliance Repair"
+          >
+          Appliance Repair
+        </label>
+
+        <label class="service-option">
+          <input
+            type="checkbox"
+            name="service"
+            value="Other Services"
+          >
+          Other Services
+        </label>
+
+      </div>
+
+
+      <label class="terms">
+
+        <input
+          id="agree"
+          type="checkbox"
+          required
+        >
+
+        <span>
+          I confirm that the information I provide is accurate
+          and I agree to Mule QuickFix service and commission rules.
+        </span>
+
+      </label>
+
+
+      <button
+        type="submit"
+        class="submit-btn"
+        id="registerBtn"
+      >
+        JOIN AS TECHNICIAN
+      </button>
+
+
+      <div
+        id="loading"
+        class="loading"
+      >
+        Creating your technician account...
+      </div>
+
+    </form>
+
+
+    <div class="commission-box">
+
+      <strong>15% Mule QuickFix commission</strong><br>
+
+      You receive payment directly from the customer.
+      Mule QuickFix charges a 15% commission on the final
+      agreed job price.
+
+      <br><br>
+
+      Example: A K400 completed job means
+      <strong>K60 commission</strong> and
+      <strong>K340 technician amount</strong>.
+
+    </div>
+
+
+    <div class="login-link">
+      Already have an account?
+      <a href="../login.html">
+        Login
+      </a>
+    </div>
+
+
+    <div class="customer-link">
+      Looking for a technician?
+      <a href="../register.html">
+        Create a customer account
+      </a>
+    </div>
+
+  </div>
+
+</main>
+
+
+<script type="module">
+
+  import {
+    auth,
+    db
+  } from "../firebase.js";
+
+
+  import {
+    createUserWithEmailAndPassword,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+  import {
+    ref,
+    set,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+
+
+  const form =
+    document.getElementById("technicianForm");
+
+  const nameInput =
+    document.getElementById("name");
+
+  const phoneInput =
+    document.getElementById("phone");
+
+  const emailInput =
+    document.getElementById("email");
+
+  const passwordInput =
+    document.getElementById("password");
+
+  const confirmPasswordInput =
+    document.getElementById("confirmPassword");
+
+  const locationInput =
+    document.getElementById("location");
+
+  const agreeInput =
+    document.getElementById("agree");
+
+  const registerBtn =
+    document.getElementById("registerBtn");
+
+  const loading =
+    document.getElementById("loading");
+
+  const message =
+    document.getElementById("message");
+
+
+  function showMessage(
+    text,
+    type
+  ) {
+
+    message.textContent =
+      text;
+
+    message.className =
+      "message " + type;
+
+    message.style.display =
+      "block";
+
+  }
+
+
+  function cleanPhone(phone) {
+
+    return phone
+      .trim()
+      .replace(/\s+/g, "");
+
+  }
+
+
+  function validZambianPhone(phone) {
+
+    return /^(?:0|260)[79][0-9]{8,9}$/.test(
+      phone
+    );
+
+  }
+
+
+  function firebaseError(error) {
+
+    switch (error.code) {
+
+      case "auth/email-already-in-use":
+        return "An account with this email already exists.";
+
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+
+      case "auth/weak-password":
+        return "Password must contain at least 6 characters.";
+
+      case "auth/network-request-failed":
+        return "Network error. Please check your internet connection.";
+
+      case "auth/operation-not-allowed":
+        return "Email/password registration is not enabled in Firebase.";
+
+      default:
+        return "Unable to create your technician account. Please try again.";
+
+    }
+
+  }
+
+
+  function setLoading(
+    active
+  ) {
+
+    registerBtn.disabled =
+      active;
+
+    loading.style.display =
+      active
+        ? "block"
+        : "none";
+
+    registerBtn.textContent =
+      active
+        ? "CREATING ACCOUNT..."
+        : "JOIN AS TECHNICIAN";
+
+  }
+
+
+  document
+    .getElementById("showPassword")
+    .addEventListener(
+      "click",
+      () => {
+
+        const hidden =
+          passwordInput.type === "password";
+
+        passwordInput.type =
+          hidden
+            ? "text"
+            : "password";
+
+        document
+          .getElementById("showPassword")
+          .textContent =
+            hidden
+              ? "Hide"
+              : "Show";
+
+      }
+    );
+
+
+  document
+    .getElementById("showConfirmPassword")
+    .addEventListener(
+      "click",
+      () => {
+
+        const hidden =
+          confirmPasswordInput.type === "password";
+
+        confirmPasswordInput.type =
+          hidden
+            ? "text"
+            : "password";
+
+        document
+          .getElementById("showConfirmPassword")
+          .textContent =
+            hidden
+              ? "Hide"
+              : "Show";
+
+      }
+    );
+
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      message.style.display =
+        "none";
+
+
+      const name =
+        nameInput.value.trim();
+
+      const phone =
+        cleanPhone(
+          phoneInput.value
+        );
+
+      const email =
+        emailInput.value
+          .trim()
+          .toLowerCase();
+
+      const password =
+        passwordInput.value;
+
+      const confirmPassword =
+        confirmPasswordInput.value;
+
+      const location =
+        locationInput.value.trim();
+
+
+      const selectedServices =
+        Array.from(
+          document.querySelectorAll(
+            'input[name="service"]:checked'
+          )
+        ).map(
+          checkbox => checkbox.value
+        );
+
+
+      if (
+        name.length < 2
+      ) {
+
+        showMessage(
+          "Please enter your full name.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !validZambianPhone(phone)
+      ) {
+
+        showMessage(
+          "Please enter a valid Zambian mobile number.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        password.length < 6
+      ) {
+
+        showMessage(
+          "Password must contain at least 6 characters.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        password !==
+        confirmPassword
+      ) {
+
+        showMessage(
+          "The passwords do not match.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        location.length < 2
+      ) {
+
+        showMessage(
+          "Please enter your operating location.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        selectedServices.length === 0
+      ) {
+
+        showMessage(
+          "Please select at least one service you provide.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !agreeInput.checked
+      ) {
+
+        showMessage(
+          "Please accept the technician terms before continuing.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      setLoading(true);
+
+
+      let createdUser = null;
+
+
+      try {
+
+        /*
+         * STEP 1
+         * Create Firebase Authentication account.
+         */
+
+        const credential =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+
+        createdUser =
+          credential.user;
+
+
+        /*
+         * STEP 2
+         * Set Firebase display name.
+         */
+
+        await updateProfile(
+          createdUser,
+          {
+            displayName: name
+          }
+        );
+
+
+        /*
+         * STEP 3
+         * Create technician profile.
+         *
+         * The technician does NOT choose a role.
+         * The application code assigns technician.
+         */
+
+        const technicianProfile = {
+
+          uid:
+            createdUser.uid,
+
+          name:
+            name,
+
+          phone:
+            phone,
+
+          email:
+            email,
+
+          role:
+            "technician",
+
+          active:
+            true,
+
+          operatingLocation:
+            location,
+
+          services:
+            selectedServices,
+
+          jobsCompleted:
+            0,
+
+          commissionOwed:
+            0,
+
+          commissionPaid:
+            0,
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+
+        };
+
+
+        await set(
+          ref(
+            db,
+            "users/" +
+            createdUser.uid
+          ),
+          technicianProfile
+        );
+
+
+        /*
+         * STEP 4
+         * Registration successful.
+         */
+
+        showMessage(
+          "Technician account created successfully. Redirecting to login...",
+          "success"
+        );
+
+
+        form.reset();
+
+
+        setTimeout(
+          () => {
+
+            window.location.href =
+              "../login.html";
+
+          },
+          1200
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Technician registration error:",
+          error
+        );
+
+
+        if (createdUser) {
+
+          showMessage(
+            "Your login account was created, but your technician profile could not be completed. Please contact Mule QuickFix management before trying again.",
+            "error"
+          );
+
+        } else {
+
+          showMessage(
+            firebaseError(error),
+            "error"
+          );
+
+        }
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
