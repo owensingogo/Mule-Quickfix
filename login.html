@@ -8,425 +8,322 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:Arial,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
-  min-height:100vh;
-}
-
-.header{
-  background:#0b5cff;
-  color:#fff;
-  padding:24px 18px;
-  text-align:center;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:800;
-}
-
-.subtitle{
-  margin-top:5px;
-  font-size:14px;
-  opacity:.9;
-}
-
-.container{
-  width:100%;
-  max-width:480px;
-  margin:28px auto;
-  padding:0 18px;
-}
-
-.card{
-  background:#fff;
-  border-radius:18px;
-  padding:26px 20px;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
-}
-
-h1{
-  font-size:26px;
-  margin-bottom:7px;
-}
-
-.intro{
-  color:#687386;
-  font-size:14px;
-  line-height:1.5;
-  margin-bottom:22px;
-}
-
-label{
-  display:block;
-  font-size:14px;
-  font-weight:700;
-  margin:15px 0 7px;
-}
-
-input{
-  width:100%;
-  padding:14px;
-  border:1px solid #d8dee9;
-  border-radius:11px;
-  font-size:16px;
-  outline:none;
-}
-
-input:focus{
-  border-color:#0b5cff;
-}
-
-button{
-  width:100%;
-  border:0;
-  padding:15px;
-  border-radius:12px;
-  background:#0b5cff;
-  color:#fff;
-  font-size:16px;
-  font-weight:800;
-  margin-top:22px;
-  cursor:pointer;
-}
-
-button:disabled{
-  opacity:.6;
-}
-
-.message{
-  display:none;
-  margin-top:15px;
-  padding:12px;
-  border-radius:10px;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.success{
-  background:#e9f8ef;
-  color:#176b39;
-}
-
-.error{
-  background:#fdecec;
-  color:#a52323;
-}
-
-.links{
-  text-align:center;
-  margin-top:20px;
-  font-size:14px;
-  line-height:2;
-}
-
-.links a{
-  color:#0b5cff;
-  font-weight:700;
-  text-decoration:none;
-}
-
-.back{
-  display:block;
-  text-align:center;
-  margin-top:18px;
-  color:#687386;
-  text-decoration:none;
-  font-size:14px;
-}
+body{font-family:Arial,sans-serif;background:#f4f7fb;color:#172033;min-height:100vh}
+.header{background:#0b5cff;color:#fff;padding:24px 18px;text-align:center}
+.logo{font-size:25px;font-weight:800}
+.subtitle{margin-top:5px;font-size:14px;opacity:.9}
+.container{width:100%;max-width:480px;margin:28px auto;padding:0 18px}
+.card{background:#fff;border-radius:18px;padding:26px 20px;box-shadow:0 8px 30px rgba(0,0,0,.08)}
+h1{font-size:26px;margin-bottom:7px}
+.intro{color:#687386;font-size:14px;line-height:1.5;margin-bottom:22px}
+label{display:block;font-size:14px;font-weight:700;margin:15px 0 7px}
+input{width:100%;padding:14px;border:1px solid #d8dee9;border-radius:11px;font-size:16px;outline:none}
+input:focus{border-color:#0b5cff}
+button{width:100%;border:0;padding:15px;border-radius:12px;background:#0b5cff;color:#fff;font-size:16px;font-weight:800;margin-top:22px;cursor:pointer}
+button:disabled{opacity:.6}
+.message{display:none;margin-top:15px;padding:12px;border-radius:10px;font-size:14px;line-height:1.4}
+.success{background:#e9f8ef;color:#176b39}
+.error{background:#fdecec;color:#a52323}
+.links{text-align:center;margin-top:20px;font-size:14px;line-height:2}
+.links a{color:#0b5cff;font-weight:700;text-decoration:none}
+.back{display:block;text-align:center;margin-top:18px;color:#687386;text-decoration:none;font-size:14px}
 </style>
 </head>
 
 <body>
 
 <div class="header">
-  <div class="logo">🔧 Mule QuickFix</div>
-  <div class="subtitle">Get the right technician for the job.</div>
+<div class="logo">🔧 Mule QuickFix</div>
+<div class="subtitle">Get the right technician for the job.</div>
 </div>
 
 <div class="container">
 
-  <div class="card">
+<div class="card">
 
-    <h1>Welcome Back</h1>
+<h1>Welcome Back</h1>
 
-    <p class="intro">
-      Login to request services, manage your jobs,
-      or access your Mule QuickFix account.
-    </p>
+<p class="intro">
+Login to request services, manage your jobs,
+or access your Mule QuickFix account.
+</p>
 
-    <form id="loginForm">
+<form id="loginForm">
 
-      <label for="email">Email Address</label>
+<label for="email">Email Address</label>
 
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        autocomplete="email"
-        required
-      >
+<input
+type="email"
+id="email"
+placeholder="Enter your email"
+autocomplete="email"
+required
+>
 
-      <label for="password">Password</label>
+<label for="password">Password</label>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-        autocomplete="current-password"
-        required
-      >
+<input
+type="password"
+id="password"
+placeholder="Enter your password"
+autocomplete="current-password"
+required
+>
 
-      <button type="submit" id="loginBtn">
-        LOGIN
-      </button>
+<button type="submit" id="loginBtn">
+LOGIN
+</button>
 
-    </form>
+</form>
 
-    <div id="message" class="message"></div>
+<div id="message" class="message"></div>
 
-    <div class="links">
-      Don't have a customer account?
-      <a href="register.html">Create Account</a>
-      <br>
+<div class="links">
 
-      Want to work as a technician?
-      <a href="technician-register.html">Join as Technician</a>
-    </div>
+Don't have a customer account?
+<a href="register.html">Create Account</a>
 
-    <a class="back" href="index.html">
-      ← Back to Mule QuickFix
-    </a>
+<br>
 
-  </div>
+Want to work as a technician?
+<a href="technician/register.html">Join as Technician</a>
 
 </div>
 
+<a class="back" href="index.html">
+← Back to Mule QuickFix
+</a>
+
+</div>
+</div>
 
 <script type="module">
 
-import { auth, db } from "./firebase.js";
+import{auth,db}from"./firebase.js";
 
-import {
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import{
+signInWithEmailAndPassword,
+signOut
+}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-import {
-  ref,
-  get
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+import{
+ref,
+get,
+set,
+serverTimestamp
+}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 
-const form =
-  document.getElementById("loginForm");
+const CEO_UID="xgUe0SY4adb3MH3k2PfYtKsGCxA3";
+const CEO_EMAIL="owensingogo998@gmail.com";
 
-const button =
-  document.getElementById("loginBtn");
 
-const message =
-  document.getElementById("message");
+const form=document.getElementById("loginForm");
+const button=document.getElementById("loginBtn");
+const message=document.getElementById("message");
 
 
 function showMessage(text,type){
 
-  message.textContent = text;
-
-  message.className =
-    "message " + type;
-
-  message.style.display = "block";
+message.textContent=text;
+message.className="message "+type;
+message.style.display="block";
 
 }
 
 
-form.addEventListener("submit", async (e)=>{
+form.addEventListener("submit",async(e)=>{
 
-  e.preventDefault();
+e.preventDefault();
 
-  const email =
-    document.getElementById("email").value.trim();
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
 
-  const password =
-    document.getElementById("password").value;
+button.disabled=true;
+button.textContent="LOGGING IN...";
 
 
-  button.disabled = true;
-  button.textContent = "LOGGING IN...";
+try{
 
+const credential=
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-  try{
+const user=credential.user;
 
-    const credential =
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
 
+/*
+CEO AUTO PROFILE
+*/
 
-    const user =
-      credential.user;
+if(
+user.uid===CEO_UID &&
+user.email===CEO_EMAIL
+){
 
+const profileRef=
+ref(db,"users/"+CEO_UID);
 
-    const snapshot =
-      await get(
-        ref(db,"users/" + user.uid)
-      );
+const profileSnapshot=
+await get(profileRef);
 
 
-    if(!snapshot.exists()){
+if(!profileSnapshot.exists()){
 
-      await auth.signOut();
+await set(profileRef,{
 
-      showMessage(
-        "Your account profile could not be found.",
-        "error"
-      );
+uid:CEO_UID,
+name:"Owen Singogo",
+email:CEO_EMAIL,
+role:"ceo",
+active:true,
+createdAt:serverTimestamp(),
+updatedAt:serverTimestamp()
 
-      button.disabled = false;
-      button.textContent = "LOGIN";
+});
 
-      return;
-    }
+}
 
+window.location.href="ceo/dashboard.html";
+return;
 
-    const profile =
-      snapshot.val();
+}
 
 
-    if(profile.active === false){
+/*
+NORMAL CUSTOMER / TECHNICIAN
+*/
 
-      await auth.signOut();
+const snapshot=
+await get(
+ref(db,"users/"+user.uid)
+);
 
-      showMessage(
-        "Your Mule QuickFix account has been deactivated. Please contact management.",
-        "error"
-      );
 
-      button.disabled = false;
-      button.textContent = "LOGIN";
+if(!snapshot.exists()){
 
-      return;
-    }
+await signOut(auth);
 
+showMessage(
+"Your account profile could not be found.",
+"error"
+);
 
-    showMessage(
-      "Login successful. Opening your account...",
-      "success"
-    );
+button.disabled=false;
+button.textContent="LOGIN";
 
+return;
 
-    /*
-      ROLE-BASED REDIRECTION
-    */
+}
 
-    if(profile.role === "customer"){
 
-      window.location.href =
-        "customer/dashboard.html";
+const profile=snapshot.val();
 
-    }
 
-    else if(profile.role === "technician"){
+if(profile.active===false){
 
-      window.location.href =
-        "technician/dashboard.html";
+await signOut(auth);
 
-    }
+showMessage(
+"Your Mule QuickFix account has been deactivated. Please contact management.",
+"error"
+);
 
-    else if(profile.role === "ceo"){
+button.disabled=false;
+button.textContent="LOGIN";
 
-      window.location.href =
-        "ceo/dashboard.html";
+return;
 
-    }
+}
 
-    else{
 
-      await auth.signOut();
+showMessage(
+"Login successful. Opening your account...",
+"success"
+);
 
-      showMessage(
-        "Your account role is not configured correctly. Please contact management.",
-        "error"
-      );
 
-      button.disabled = false;
-      button.textContent = "LOGIN";
-    }
+if(profile.role==="customer"){
 
+window.location.href=
+"customer/dashboard.html";
 
-  }catch(error){
+}
 
-    console.error(error);
+else if(profile.role==="technician"){
 
-    let text =
-      "Login failed. Please try again.";
+window.location.href=
+"technician/dashboard.html";
 
+}
 
-    if(
-      error.code ===
-      "auth/invalid-credential"
-    ){
+else if(profile.role==="ceo"){
 
-      text =
-        "Incorrect email or password.";
+window.location.href=
+"ceo/dashboard.html";
 
-    }
+}
 
-    else if(
-      error.code ===
-      "auth/user-not-found"
-    ){
+else{
 
-      text =
-        "No account was found with this email.";
+await signOut(auth);
 
-    }
+showMessage(
+"Your account role is not configured correctly. Please contact management.",
+"error"
+);
 
-    else if(
-      error.code ===
-      "auth/wrong-password"
-    ){
+button.disabled=false;
+button.textContent="LOGIN";
 
-      text =
-        "Incorrect password.";
+}
 
-    }
 
-    else if(
-      error.code ===
-      "auth/invalid-email"
-    ){
+}catch(error){
 
-      text =
-        "Please enter a valid email address.";
+console.error(error);
 
-    }
+let text="Login failed. Please try again.";
 
-    else if(
-      error.code ===
-      "auth/network-request-failed"
-    ){
 
-      text =
-        "Network error. Check your internet connection.";
+if(error.code==="auth/invalid-credential"){
+text="Incorrect email or password.";
+}
 
-    }
+else if(error.code==="auth/user-not-found"){
+text="No account was found with this email.";
+}
 
+else if(error.code==="auth/wrong-password"){
+text="Incorrect password.";
+}
 
-    showMessage(text,"error");
+else if(error.code==="auth/invalid-email"){
+text="Please enter a valid email address.";
+}
 
-    button.disabled = false;
-    button.textContent = "LOGIN";
+else if(error.code==="auth/network-request-failed"){
+text="Network error. Check your internet connection.";
+}
 
-  }
+else if(error.code==="PERMISSION_DENIED"){
+text="Database permission denied. Check Firebase Rules.";
+}
+
+
+showMessage(text,"error");
+
+button.disabled=false;
+button.textContent="LOGIN";
+
+}
 
 });
 
 </script>
 
 </body>
-</html>
+  </html>
