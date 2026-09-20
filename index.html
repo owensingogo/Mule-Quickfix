@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- PWA -->
   <meta name="theme-color" content="#0b5cff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.json">
 
   <title>Mule QuickFix</title>
 
@@ -425,7 +430,7 @@
           finding jobs in your area. No application process is required.
         </p>
 
-        <a href="technician-register.html" class="outline-btn">
+        <a href="technician/register.html" class="outline-btn">
           JOIN AS TECHNICIAN
         </a>
       </div>
@@ -460,6 +465,21 @@
   <script>
     function goToLogin() {
       window.location.href = "login.html";
+    }
+  </script>
+
+  <!-- Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => {
+            console.log("Mule QuickFix service worker registered");
+          })
+          .catch(error => {
+            console.error("Service worker registration failed:", error);
+          });
+      });
     }
   </script>
 
