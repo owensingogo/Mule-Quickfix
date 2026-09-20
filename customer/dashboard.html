@@ -23,7 +23,6 @@
       min-height: 100vh;
     }
 
-    /* HEADER */
     .header {
       background: linear-gradient(135deg, #0b5cff, #1749c6);
       color: white;
@@ -33,18 +32,22 @@
       box-shadow: 0 5px 18px rgba(11, 92, 255, 0.18);
     }
 
+    .topbar,
+    .welcome {
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 700px;
-      margin: auto;
     }
 
     .brand {
       font-size: 21px;
       font-weight: 800;
-      letter-spacing: .2px;
     }
 
     .brand span {
@@ -66,8 +69,7 @@
     }
 
     .welcome {
-      max-width: 700px;
-      margin: 25px auto 0;
+      margin-top: 25px;
     }
 
     .welcome small {
@@ -78,7 +80,6 @@
     .welcome h1 {
       margin-top: 5px;
       font-size: 26px;
-      line-height: 1.2;
     }
 
     .welcome p {
@@ -87,19 +88,24 @@
       opacity: .9;
     }
 
-    /* MAIN */
     .container {
       width: 92%;
       max-width: 700px;
       margin: 20px auto 40px;
     }
 
-    /* QUICK ACTION */
-    .request-card {
+    .request-card,
+    .info-box,
+    .request-item,
+    .empty,
+    .loading {
       background: white;
+      box-shadow: 0 5px 20px rgba(23, 32, 51, .06);
+    }
+
+    .request-card {
       border-radius: 18px;
       padding: 20px;
-      box-shadow: 0 5px 20px rgba(23, 32, 51, .06);
       margin-bottom: 20px;
     }
 
@@ -125,14 +131,8 @@
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 7px 16px rgba(11, 92, 255, .2);
     }
 
-    .request-btn:active {
-      transform: scale(.99);
-    }
-
-    /* INFO GRID */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -141,10 +141,8 @@
     }
 
     .info-box {
-      background: white;
       padding: 16px;
       border-radius: 16px;
-      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
     }
 
     .info-icon {
@@ -164,7 +162,6 @@
       margin-top: 4px;
     }
 
-    /* SECTION */
     .section-title {
       display: flex;
       justify-content: space-between;
@@ -182,7 +179,6 @@
       font-weight: 600;
     }
 
-    /* REQUESTS */
     #requests {
       display: flex;
       flex-direction: column;
@@ -190,16 +186,13 @@
     }
 
     .request-item {
-      background: white;
       border-radius: 17px;
       padding: 17px;
-      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
       border-left: 4px solid #0b5cff;
     }
 
     .request-top {
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
     }
@@ -266,11 +259,9 @@
 
     .detail b {
       color: #283246;
-      font-weight: 600;
     }
 
     .budget {
-      font-weight: 700;
       color: #0b5cff !important;
     }
 
@@ -280,23 +271,16 @@
       color: #98a1b2;
     }
 
-    /* LOADING */
-    .loading {
-      background: white;
-      padding: 22px;
-      text-align: center;
+    .loading,
+    .empty {
       border-radius: 16px;
-      color: #758096;
-      font-size: 13px;
+      padding: 25px;
+      text-align: center;
     }
 
-    /* EMPTY */
-    .empty {
-      background: white;
-      border-radius: 17px;
-      padding: 35px 20px;
-      text-align: center;
-      box-shadow: 0 5px 18px rgba(23, 32, 51, .05);
+    .loading {
+      color: #758096;
+      font-size: 13px;
     }
 
     .empty-icon {
@@ -315,7 +299,12 @@
       line-height: 1.5;
     }
 
-    /* FOOTER */
+    .error-text {
+      color: #b42318;
+      margin-top: 8px;
+      word-break: break-word;
+    }
+
     footer {
       text-align: center;
       color: #8a94a6;
@@ -342,483 +331,573 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
+<header class="header">
 
-    <div class="topbar">
-      <div class="brand">
-        🛠️ Mule QuickFix
-        <span>Reliable help. Right when you need it.</span>
-      </div>
+  <div class="topbar">
 
-      <button class="logout-btn" id="logoutBtn">
-        Logout
-      </button>
+    <div class="brand">
+      🛠️ Mule QuickFix
+      <span>Reliable help. Right when you need it.</span>
     </div>
 
-    <div class="welcome">
-      <small>Welcome back</small>
-      <h1 id="customerName">Customer</h1>
-      <p>What needs fixing today?</p>
+    <button class="logout-btn" id="logoutBtn">
+      Logout
+    </button>
+
+  </div>
+
+  <div class="welcome">
+
+    <small>Welcome back</small>
+
+    <h1 id="customerName">
+      Customer
+    </h1>
+
+    <p>
+      What needs fixing today?
+    </p>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <section class="request-card">
+
+    <h2>
+      Need a technician?
+    </h2>
+
+    <p>
+      Tell us what you need fixed and your location.
+      A suitable technician can then take up your job.
+    </p>
+
+    <button
+      class="request-btn"
+      onclick="window.location.href='request-service.html'">
+      + REQUEST A SERVICE
+    </button>
+
+  </section>
+
+
+  <section class="info-grid">
+
+    <div class="info-box">
+      <div class="info-icon">🔧</div>
+      <strong>Professional Help</strong>
+      <span>Connect with technicians</span>
     </div>
 
-  </header>
+    <div class="info-box">
+      <div class="info-icon">📍</div>
+      <strong>Local Service</strong>
+      <span>Get help where you are</span>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">💬</div>
+      <strong>Easy Process</strong>
+      <span>Request and get connected</span>
+    </div>
+
+    <div class="info-box">
+      <div class="info-icon">🤝</div>
+      <strong>Direct Payment</strong>
+      <span>Pay the technician directly</span>
+    </div>
+
+  </section>
 
 
-  <main class="container">
+  <section>
 
-    <!-- REQUEST SERVICE -->
-    <section class="request-card">
+    <div class="section-title">
 
-      <h2>Need a technician?</h2>
+      <h2>
+        My Requests
+      </h2>
 
-      <p>
-        Tell us what you need fixed and your location.
-        A suitable technician can then take up your job.
-      </p>
+      <span id="requestCount">
+        0 requests
+      </span>
 
-      <button
-        class="request-btn"
-        onclick="window.location.href='request-service.html'">
-        + REQUEST A SERVICE
-      </button>
+    </div>
 
-    </section>
+    <div id="requests">
 
-
-    <!-- QUICK INFO -->
-    <section class="info-grid">
-
-      <div class="info-box">
-        <div class="info-icon">🔧</div>
-        <strong>Professional Help</strong>
-        <span>Connect with technicians</span>
+      <div class="loading">
+        Loading your requests...
       </div>
 
-      <div class="info-box">
-        <div class="info-icon">📍</div>
-        <strong>Local Service</strong>
-        <span>Get help where you are</span>
-      </div>
+    </div>
 
-      <div class="info-box">
-        <div class="info-icon">💬</div>
-        <strong>Easy Process</strong>
-        <span>Request and get connected</span>
-      </div>
+  </section>
 
-      <div class="info-box">
-        <div class="info-icon">🤝</div>
-        <strong>Direct Payment</strong>
-        <span>Pay the technician directly</span>
-      </div>
-
-    </section>
+</main>
 
 
-    <!-- MY REQUESTS -->
-    <section>
+<footer>
 
-      <div class="section-title">
-        <h2>My Requests</h2>
-        <span id="requestCount">0 requests</span>
-      </div>
+  <strong>Mule QuickFix</strong>
+  <br>
 
-      <div id="requests">
-        <div class="loading">
-          Loading your requests...
-        </div>
-      </div>
+  Reliable help. Right when you need it.
 
-    </section>
-
-  </main>
+</footer>
 
 
-  <footer>
-    <strong>Mule QuickFix</strong><br>
-    Reliable help. Right when you need it.
-  </footer>
+<script type="module">
+
+  import { auth, db } from "../firebase.js";
+
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  import {
+    ref,
+    get
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 
-  <!-- FIREBASE -->
-  <script type="module">
+  const customerName =
+    document.getElementById("customerName");
 
-    import { auth, db } from "../firebase.js";
+  const requestsBox =
+    document.getElementById("requests");
 
-    import {
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  const requestCount =
+    document.getElementById("requestCount");
 
-    import {
-      ref,
-      get,
-      query,
-      orderByChild,
-      equalTo
-    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+  const logoutBtn =
+    document.getElementById("logoutBtn");
 
 
-    const customerName = document.getElementById("customerName");
-    const requestsBox = document.getElementById("requests");
-    const requestCount = document.getElementById("requestCount");
-    const logoutBtn = document.getElementById("logoutBtn");
+  logoutBtn.addEventListener("click", async () => {
+
+    try {
+
+      await signOut(auth);
+
+      window.location.href = "../login.html";
+
+    } catch (error) {
+
+      alert("Unable to log out. Please try again.");
+
+    }
+
+  });
 
 
-    /* LOGOUT */
+  function formatDate(timestamp) {
 
-    logoutBtn.addEventListener("click", async () => {
+    if (!timestamp) {
+      return "Date unavailable";
+    }
 
-      try {
+    const date = new Date(timestamp);
 
-        await signOut(auth);
+    if (isNaN(date.getTime())) {
+      return "Date unavailable";
+    }
 
-        window.location.href = "../login.html";
-
-      } catch (error) {
-
-        alert("Unable to log out. Please try again.");
-
-      }
-
+    return date.toLocaleDateString("en-ZM", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
     });
 
-
-    /* FORMAT DATE */
-
-    function formatDate(timestamp) {
-
-      if (!timestamp) return "Date unavailable";
-
-      const date = new Date(timestamp);
-
-      if (isNaN(date.getTime())) {
-        return "Date unavailable";
-      }
-
-      return date.toLocaleDateString("en-ZM", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      });
-
-    }
+  }
 
 
-    /* FORMAT STATUS */
+  function statusClass(status) {
 
-    function statusClass(status) {
+    return String(status || "pending")
+      .toLowerCase()
+      .replace(/\s+/g, "-");
 
-      return String(status || "pending")
-        .toLowerCase()
-        .replace(/\s+/g, "-");
-
-    }
+  }
 
 
-    function statusText(status) {
+  function statusText(status) {
 
-      return String(status || "pending")
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, letter => letter.toUpperCase());
+    return String(status || "pending")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, letter => letter.toUpperCase());
 
-    }
-
-
-    /* LOAD CUSTOMER */
-
-    async function loadCustomer(user) {
-
-      const userRef = ref(db, `users/${user.uid}`);
-
-      const snapshot = await get(userRef);
-
-      if (!snapshot.exists()) {
-
-        alert("Your account profile could not be found.");
-
-        await signOut(auth);
-
-        window.location.href = "../login.html";
-
-        return;
-
-      }
-
-      const profile = snapshot.val();
+  }
 
 
-      if (profile.role !== "customer") {
+  function escapeHtml(value) {
 
-        alert("This account does not have customer access.");
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
-        await signOut(auth);
-
-        window.location.href = "../login.html";
-
-        return;
-
-      }
-
-
-      if (profile.active === false) {
-
-        alert("Your account has been deactivated.");
-
-        await signOut(auth);
-
-        window.location.href = "../login.html";
-
-        return;
-
-      }
+  }
 
 
-      customerName.textContent =
-        profile.name || user.displayName || "Customer";
+  async function loadCustomer(user) {
 
+    const userRef =
+      ref(db, `users/${user.uid}`);
 
-      await loadRequests(user.uid);
+    const snapshot =
+      await get(userRef);
+
+    if (!snapshot.exists()) {
+
+      alert("Your account profile could not be found.");
+
+      await signOut(auth);
+
+      window.location.href = "../login.html";
+
+      return;
 
     }
 
 
-    /* LOAD ONLY THIS CUSTOMER'S REQUESTS */
-
-    async function loadRequests(uid) {
-
-      requestsBox.innerHTML = `
-        <div class="loading">
-          Loading your requests...
-        </div>
-      `;
+    const profile = snapshot.val();
 
 
-      try {
+    if (profile.role !== "customer") {
 
-        const requestsQuery = query(
-          ref(db, "serviceRequests"),
-          orderByChild("customerId"),
-          equalTo(uid)
-        );
+      alert("This account does not have customer access.");
 
+      await signOut(auth);
 
-        const snapshot = await get(requestsQuery);
+      window.location.href = "../login.html";
 
+      return;
 
-        if (!snapshot.exists()) {
-
-          requestCount.textContent = "0 requests";
-
-          requestsBox.innerHTML = `
-            <div class="empty">
-
-              <div class="empty-icon">🛠️</div>
-
-              <h3>No service requests yet</h3>
-
-              <p>
-                When you need a technician, create your
-                first service request here.
-              </p>
-
-            </div>
-          `;
-
-          return;
-
-        }
+    }
 
 
-        const requests = [];
+    if (profile.active === false) {
 
+      alert("Your account has been deactivated.");
+
+      await signOut(auth);
+
+      window.location.href = "../login.html";
+
+      return;
+
+    }
+
+
+    customerName.textContent =
+      profile.name || user.displayName || "Customer";
+
+
+    await loadRequests(user.uid);
+
+  }
+
+
+  async function loadRequests(uid) {
+
+    requestsBox.innerHTML = `
+      <div class="loading">
+        Loading your requests...
+      </div>
+    `;
+
+
+    try {
+
+      /*
+       * Read service requests.
+       *
+       * We filter by customerId locally.
+       * Customer phone numbers are not stored
+       * inside serviceRequests.
+       */
+
+      const snapshot =
+        await get(ref(db, "serviceRequests"));
+
+
+      const requests = [];
+
+
+      if (snapshot.exists()) {
 
         snapshot.forEach(child => {
 
-          requests.push({
-            id: child.key,
-            ...child.val()
-          });
+          const request = child.val();
+
+          if (request.customerId === uid) {
+
+            requests.push({
+              id: child.key,
+              ...request
+            });
+
+          }
 
         });
 
-
-        /* NEWEST FIRST */
-
-        requests.sort((a, b) => {
-
-          const timeA = a.createdAt || 0;
-          const timeB = b.createdAt || 0;
-
-          return timeB - timeA;
-
-        });
+      }
 
 
-        requestCount.textContent =
-          `${requests.length} ${requests.length === 1 ? "request" : "requests"}`;
+      requests.sort((a, b) => {
+
+        const timeA = Number(a.createdAt || 0);
+        const timeB = Number(b.createdAt || 0);
+
+        return timeB - timeA;
+
+      });
 
 
-        requestsBox.innerHTML = "";
+      requestCount.textContent =
+        `${requests.length} ${requests.length === 1 ? "request" : "requests"}`;
 
 
-        requests.forEach(request => {
-
-          const status = request.status || "pending";
-
-          const card = document.createElement("div");
-
-          card.className = "request-item";
-
-
-          card.innerHTML = `
-
-            <div class="request-top">
-
-              <div class="service-name">
-                ${escapeHtml(request.serviceType || "Service Request")}
-              </div>
-
-              <div class="status ${statusClass(status)}">
-                ${escapeHtml(statusText(status))}
-              </div>
-
-            </div>
-
-
-            <div class="description">
-
-              ${escapeHtml(
-                request.description || "No description provided."
-              )}
-
-            </div>
-
-
-            <div class="request-details">
-
-              <div class="detail">
-                📍
-                <span>
-                  Location:
-                  <b>
-                    ${escapeHtml(request.location || "Not provided")}
-                  </b>
-                </span>
-              </div>
-
-
-              <div class="detail">
-
-                💰
-
-                <span>
-
-                  Suggested budget:
-
-                  <b class="budget">
-
-                    K${escapeHtml(
-                      Number(request.suggestedBudget || 0)
-                        .toLocaleString()
-                    )}
-
-                  </b>
-
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="date">
-
-              Request ID: ${escapeHtml(request.id || "")}
-              <br>
-
-              Created:
-              ${formatDate(request.createdAt)}
-
-            </div>
-
-          `;
-
-
-          requestsBox.appendChild(card);
-
-        });
-
-
-      } catch (error) {
-
-        console.error(error);
+      if (requests.length === 0) {
 
         requestsBox.innerHTML = `
           <div class="empty">
 
-            <div class="empty-icon">⚠️</div>
+            <div class="empty-icon">
+              🛠️
+            </div>
 
-            <h3>Unable to load requests</h3>
+            <h3>
+              No service requests yet
+            </h3>
 
             <p>
-              Please check your internet connection
-              and try again.
+              When you need a technician,
+              create your first service request here.
             </p>
 
           </div>
         `;
 
-      }
-
-    }
-
-
-    /* SECURITY: ESCAPE DATABASE TEXT */
-
-    function escapeHtml(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* AUTH */
-
-    onAuthStateChanged(auth, async user => {
-
-      if (!user) {
-
-        window.location.href = "../login.html";
-
         return;
 
       }
 
 
-      try {
+      requestsBox.innerHTML = "";
 
-        await loadCustomer(user);
 
-      } catch (error) {
+      requests.forEach(request => {
 
-        console.error(error);
+        const status =
+          request.status || "pending";
 
-        alert(
-          "Something went wrong while loading your account."
-        );
 
-      }
+        const card =
+          document.createElement("div");
 
-    });
 
-  </script>
+        card.className =
+          "request-item";
+
+
+        card.innerHTML = `
+
+          <div class="request-top">
+
+            <div class="service-name">
+              ${escapeHtml(
+                request.serviceType ||
+                "Service Request"
+              )}
+            </div>
+
+            <div class="status ${statusClass(status)}">
+              ${escapeHtml(
+                statusText(status)
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="description">
+
+            ${escapeHtml(
+              request.description ||
+              "No description provided."
+            )}
+
+          </div>
+
+
+          <div class="request-details">
+
+            <div class="detail">
+
+              📍
+
+              <span>
+
+                Location:
+
+                <b>
+                  ${escapeHtml(
+                    request.location ||
+                    "Not provided"
+                  )}
+                </b>
+
+              </span>
+
+            </div>
+
+
+            <div class="detail">
+
+              💰
+
+              <span>
+
+                Suggested budget:
+
+                <b class="budget">
+
+                  K${escapeHtml(
+                    Number(
+                      request.suggestedBudget || 0
+                    ).toLocaleString()
+                  )}
+
+                </b>
+
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="date">
+
+            Request ID:
+            ${escapeHtml(request.id || "")}
+
+            <br>
+
+            Created:
+            ${formatDate(request.createdAt)}
+
+          </div>
+
+        `;
+
+
+        requestsBox.appendChild(card);
+
+      });
+
+    } catch (error) {
+
+      console.error(
+        "CUSTOMER REQUEST ERROR:",
+        error
+      );
+
+
+      requestsBox.innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ⚠️
+          </div>
+
+          <h3>
+            Unable to load requests
+          </h3>
+
+          <p>
+            Firebase error:
+          </p>
+
+          <p class="error-text">
+            ${escapeHtml(
+              error.message ||
+              error.code ||
+              "Unknown Firebase error"
+            )}
+          </p>
+
+        </div>
+
+      `;
+
+    }
+
+  }
+
+
+  onAuthStateChanged(auth, async user => {
+
+    if (!user) {
+
+      window.location.href = "../login.html";
+
+      return;
+
+    }
+
+
+    try {
+
+      await loadCustomer(user);
+
+    } catch (error) {
+
+      console.error(
+        "CUSTOMER DASHBOARD ERROR:",
+        error
+      );
+
+
+      requestsBox.innerHTML = `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ⚠️
+          </div>
+
+          <h3>
+            Unable to load dashboard
+          </h3>
+
+          <p class="error-text">
+            ${escapeHtml(
+              error.message ||
+              error.code ||
+              "Unknown Firebase error"
+            )}
+          </p>
+
+        </div>
+
+      `;
+
+    }
+
+  });
+
+</script>
 
 </body>
-  </html>
+</html>
