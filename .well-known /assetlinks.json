@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.owensingogo.twa",
+      "sha256_cert_fingerprints": [
+        "5E:6C:0D:5F:7D:D7:E8:1E:94:95:2F:26:B4:4B:EE:67:93:78:88:54:A7:C1:72:79:31:0F:62:79:63:11:04:5C"
+      ]
+    }
+  }
+]
