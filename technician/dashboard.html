@@ -1,1026 +1,846 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b5cff">
-<title>Mule QuickFix | Technician</title><style>
+<title>Mule QuickFix | Technician</title>
+
+<style>
 *{box-sizing:border-box}
-body{margin:0;background:#f4f7fb;font-family:Arial;color:#172033}
+body{margin:0;background:#f4f7fb;font-family:Arial,sans-serif;color:#172033}
 header{background:#0b5cff;color:#fff;padding:16px;position:sticky;top:0;z-index:5}
-.head{max-width:800px;margin:auto;display:flex;justify-content:space-between;align-items:center}
+.head{max-width:800px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .brand{font-size:20px;font-weight:800}
-.logout{border:0;border-radius:8px;padding:9px 12px;color:#0b5cff;font-weight:bold}
+.logout{border:0;border-radius:8px;padding:9px 12px;background:#fff;color:#0b5cff;font-weight:bold;cursor:pointer}
 main{max-width:800px;margin:auto;padding:15px}
 .hero{background:#0b5cff;color:#fff;border-radius:16px;padding:20px;margin-bottom:15px}
 .hero h1{margin:0 0 6px;font-size:24px}
 .card{background:#fff;border:1px solid #e5e9f0;border-radius:15px;padding:16px;margin-bottom:15px;box-shadow:0 2px 10px #0001}
 h2{font-size:18px;margin:0 0 13px}
 .profile{display:flex;align-items:center;gap:12px}
-.avatar{width:52px;height:52px;border-radius:50%;background:#eaf1ff;color:#0b5cff;display:grid;place-items:center;font-size:22px;font-weight:bold}
+.avatar{width:52px;height:52px;flex-shrink:0;border-radius:50%;background:#eaf1ff;color:#0b5cff;display:grid;place-items:center;font-size:22px;font-weight:bold}
 .name{font-size:17px;font-weight:bold}
 .active{display:inline-block;background:#e8f7ee;color:#168346;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:bold;margin-top:5px}
+.inactive{background:#fff0ef;color:#b42318}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:#f6f8fb;border-radius:10px;text-align:center;padding:12px}
+.stat{background:#f6f8fb;border-radius:10px;text-align:center;padding:12px;overflow-wrap:anywhere}
 .stat b{display:block;color:#0b5cff;font-size:18px}
 .stat small{color:#667085}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{background:#edf3ff;color:#0b5cff;border-radius:20px;padding:7px 10px;font-size:12px;font-weight:bold}
-.job{border:1px solid #e0e5ed;border-radius:12px;padding:13px;margin-bottom:10px}
+.job{border:1px solid #e0e5ed;border-radius:12px;padding:13px;margin-bottom:10px;overflow-wrap:anywhere}
 .job:last-child{margin-bottom:0}
-.jobtop{display:flex;justify-content:space-between;gap:8px}
+.jobtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .badge{background:#eef3ff;color:#0b5cff;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:bold}
-.job p{font-size:13px;line-height:1.45}
 .budget{background:#f6f8fb;border-radius:9px;padding:10px;font-size:12px}
 .budget b{font-size:17px;color:#0b5cff}
-button,.btn{border:0;border-radius:8px;padding:10px 12px;font-weight:bold;text-decoration:none;display:inline-block}
+button,.btn{border:0;border-radius:8px;padding:10px 12px;font-weight:bold;text-decoration:none;display:inline-block;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
 .blue{background:#0b5cff;color:#fff}
 .green{background:#168346;color:#fff}
 .dark{background:#172033;color:#fff}
+.gray{background:#667085;color:#fff}
 .input{width:100%;padding:11px;border:1px solid #ccd3df;border-radius:8px;margin:8px 0}
-.manager{background:#fff7df;border:1px solid #efd48a;border-radius:10px;padding:11px;font-size:12px}
+.manager{background:#fff7df;border:1px solid #efd48a;border-radius:10px;padding:11px;font-size:12px;line-height:1.5}
 .manager a{color:#0b5cff;font-weight:bold;text-decoration:none}
-.notice{background:#edf6ff;color:#174ea6;border-radius:9px;padding:10px;font-size:12px;line-height:1.45}
+.notice{background:#edf6ff;color:#174ea6;border-radius:9px;padding:10px;font-size:12px;line-height:1.5;margin-bottom:12px}
+.warning{background:#fff7df;color:#7a4b00;border:1px solid #efd48a;border-radius:10px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:12px}
+.success{background:#e8f7ee;color:#166534;border-radius:10px;padding:12px;font-size:13px;line-height:1.5}
+.payment{border:1px solid #e0e5ed;border-radius:10px;padding:12px;margin:10px 0;line-height:1.7}
+.money{font-weight:bold;color:#0b5cff}
 .empty{text-align:center;padding:18px;color:#667085;font-size:13px}
-.error{background:#fff0ef;color:#b42318;padding:14px;border-radius:9px;font-size:13px;line-height:1.5;word-break:break-word}
+.error{background:#fff0ef;color:#b42318;padding:14px;border-radius:9px;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+p{line-height:1.5}
 @media(max-width:480px){
-.stats{grid-template-columns:1fr 1fr}
-.hero h1{font-size:21px}
+ .stats{grid-template-columns:1fr 1fr}
+ .hero h1{font-size:21px}
+ .card{padding:13px}
 }
-</style></head><body><header>
-<div class="head"><div>
-<div class="brand">Mule QuickFix</div>
-<div style="font-size:11px">Technician Office</div>
-</div><button class="logout" id="logout">Logout</button>
+</style>
+</head>
 
-</div>
-</header><main><div class="hero">
-<h1 id="welcome">Welcome</h1>
-<div>Manage your jobs and earnings professionally.</div>
-</div><div class="card">
-<div class="profile"><div class="avatar" id="avatar">T</div><div>
-<div class="name" id="name">Loading...</div>
-<span class="active">ACTIVE</span>
-</div></div>
-</div><div class="card">
-<h2>My Performance</h2><div class="stats"><div class="stat">
-<b id="completed">0</b>
-<small>Completed</small>
-</div><div class="stat">
-<b id="owed">K0</b>
-<small>Commission Owed</small>
-</div><div class="stat">
-<b id="paid">K0</b>
-<small>Commission Paid</small>
-</div></div>
-</div><div class="card">
-<h2>My Services</h2>
-<div class="tags" id="services">Loading...</div>
-</div><div class="card">
-<h2>Available Jobs</h2><div class="notice">
-Customer phone numbers are private. Accept the job first, then contact Mule QuickFix management if you need the customer's number.
-</div><div id="available">
-<div class="empty">Loading...</div>
-</div></div><div class="card">
-<h2>My Jobs</h2><div id="jobs">
-<div class="empty">Loading...</div>
-</div></div><div class="card">
-<h2>Commission</h2><div class="notice">
-Mule QuickFix commission is <b>15%</b> of the final agreed job price.
-</div><p>
-<b>Total commission owed:</b>
-<span id="totalOwed">K0.00</span>
-</p><p>
-<b>Total commission paid:</b>
-<span id="totalPaid">K0.00</span>
-</p></div></main><script type="module">
+<body>
+<header>
+  <div class="head">
+    <div>
+      <div class="brand">Mule QuickFix</div>
+      <div style="font-size:11px">Technician Office</div>
+    </div>
+    <button class="logout" id="logout">Logout</button>
+  </div>
+</header>
 
-import{auth,db}from"../firebase.js";
+<main>
+  <div class="hero">
+    <h1 id="welcome">Welcome</h1>
+    <div>Manage your jobs, commission and earnings professionally.</div>
+  </div>
 
-import{
-onAuthStateChanged,
-signOut
-}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+  <div class="card">
+    <div class="profile">
+      <div class="avatar" id="avatar">T</div>
+      <div>
+        <div class="name" id="name">Loading...</div>
+        <span class="active" id="accountStatus">CHECKING ACCOUNT</span>
+      </div>
+    </div>
+  </div>
 
-import{
-ref,
-get,
-set,
-update,
-serverTimestamp
-}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+  <div class="card">
+    <h2>My Performance</h2>
+    <div class="stats">
+      <div class="stat">
+        <b id="completed">0</b>
+        <small>Completed</small>
+      </div>
+      <div class="stat">
+        <b id="owed">K0.00</b>
+        <small>Commission Owed</small>
+      </div>
+      <div class="stat">
+        <b id="paid">K0.00</b>
+        <small>Commission Paid</small>
+      </div>
+    </div>
+  </div>
 
-const RATE=.15;
+  <div class="card">
+    <h2>My Services</h2>
+    <div class="tags" id="services">Loading...</div>
+  </div>
 
-const M1="0972632701";
-const M2="0768217115";
+  <div class="card">
+    <h2>Available Jobs</h2>
+    <div id="commissionLock"></div>
+    <div class="notice">
+      Customer phone numbers are private. Accept a job first, then contact
+      Mule QuickFix management if you need the customer's number.
+    </div>
+    <div id="available">
+      <div class="empty">Loading...</div>
+    </div>
+  </div>
 
-let uid="";
-let tech=null;
+  <div class="card">
+    <h2>My Jobs</h2>
+    <div id="jobs">
+      <div class="empty">Loading...</div>
+    </div>
+  </div>
 
-const $=x=>document.getElementById(x);
+  <div class="card">
+    <h2>Commission &amp; Payment</h2>
+    <div class="notice">
+      Mule QuickFix charges a commission of <b>15% of the final agreed job price.</b>
+      This commission is separate from the payment the customer makes directly
+      to you.
+    </div>
 
-const money=x=>"K"+Number(x||0).toFixed(2);
+    <p>
+      <b>Total commission owed:</b>
+      <span class="money" id="totalOwed">K0.00</span>
+    </p>
+    <p>
+      <b>Total commission paid:</b>
+      <span class="money" id="totalPaid">K0.00</span>
+    </p>
 
-const esc=x=>String(x??"").replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
+    <div id="paymentInstructions"></div>
 
-onAuthStateChanged(auth,async user=>{
+    <div class="warning">
+      After paying, contact management and wait for the CEO to confirm receipt.
+      Your dashboard balance changes when management records the payment.
+      Do not pay the same commission twice.
+    </div>
+  </div>
+</main>
 
-if(!user){
+<script type="module">
+import {auth,db} from "../firebase.js";
 
-location.href="../login.html";
-return;
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-}
+import {
+  ref,
+  get,
+  set,
+  update,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
-uid=user.uid;
+const RATE = 0.15;
+const M1 = "0972632701";
+const M2 = "0768217115";
 
-try{
+let uid = "";
+let tech = null;
+let accepting = false;
+let completing = false;
 
-console.log("Logged-in technician UID:",uid);
+const $ = id => document.getElementById(id);
 
-const s=await get(ref(db,"users/"+uid));
+const money = value =>
+  "K" + (Number(value) || 0).toFixed(2);
 
-if(!s.exists()){
+const roundMoney = value =>
+  Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 
-throw new Error(
-"Technician profile not found at /users/"+uid
-);
+const esc = value =>
+  String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[character]);
 
-}
-
-const profile=s.val();
-
-console.log("Technician profile:",profile);
-
-if(profile.role!=="technician"){
-
-throw new Error(
-"Your account role is '"+profile.role+
-"', not 'technician'."
-);
-
-}
-
-tech=profile;
-
-if(tech.active===false){
-
-alert("Your account has been deactivated.");
-
-await signOut(auth);
-
-location.href="../login.html";
-
-return;
-
-}
-
-showProfile();
-
-await loadAvailable();
-
-await loadJobs();
-
-}catch(e){
-
-console.error(
-"TECHNICIAN DASHBOARD ERROR:",
-e
-);
-
-document.querySelector("main").innerHTML=`
-
-<div class="card">
-
-<div class="error">
-
-<b>Unable to load your dashboard.</b>
-
-<br><br>
-
-Firebase error:
-
-<br>
-
-${esc(e.message||e.code||"Unknown Firebase error")}
-
-<br><br>
-
-<b>UID:</b> ${esc(uid)}
-
-</div>
-
-</div>
-
-`;
-
+function getOwed(profile = tech) {
+  return roundMoney(Number(profile?.commissionOwed || 0));
 }
 
+function isCommissionOutstanding(profile = tech) {
+  return getOwed(profile) > 0;
+}
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    location.href = "../login.html";
+    return;
+  }
+
+  uid = user.uid;
+
+  try {
+    const snapshot = await get(ref(db,"users/" + uid));
+
+    if (!snapshot.exists()) {
+      throw new Error("Technician profile not found at /users/" + uid);
+    }
+
+    tech = snapshot.val();
+
+    if (tech.role !== "technician") {
+      throw new Error("This account is not registered as a technician.");
+    }
+
+    if (tech.active === false) {
+      alert("Your account has been deactivated. Please contact management.");
+      await signOut(auth);
+      location.href = "../login.html";
+      return;
+    }
+
+    showProfile();
+    showPaymentInstructions();
+    await loadAvailable();
+    await loadJobs();
+
+  } catch (error) {
+    console.error("Technician dashboard error:",error);
+
+    document.querySelector("main").innerHTML = `
+      <div class="card">
+        <div class="error">
+          <b>Unable to load your dashboard.</b><br><br>
+          ${esc(error.message || error.code || "Unknown Firebase error")}
+          <br><br><b>UID:</b> ${esc(uid)}
+        </div>
+      </div>
+    `;
+  }
 });
 
-function showProfile(){
+function showProfile() {
+  const name = tech.name || "Technician";
+  const owed = getOwed();
+  const paid = roundMoney(tech.commissionPaid || 0);
 
-let n=tech.name||"Technician";
+  $("welcome").textContent = "Welcome, " + name;
+  $("name").textContent = name;
+  $("avatar").textContent = name.charAt(0).toUpperCase();
 
-$("welcome").textContent=
-"Welcome, "+n;
+  $("accountStatus").textContent =
+    tech.active === false ? "DEACTIVATED" : "ACTIVE";
 
-$("name").textContent=n;
+  $("accountStatus").className =
+    tech.active === false ? "active inactive" : "active";
 
-$("avatar").textContent=
-n.charAt(0).toUpperCase();
+  const services = Array.isArray(tech.services) ? tech.services : [];
 
-let services=tech.services||[];
+  $("services").innerHTML = services.length
+    ? services.map(service =>
+        `<span class="tag">${esc(service)}</span>`
+      ).join("")
+    : '<span class="empty">No services registered.</span>';
 
-$("services").innerHTML=
-services.length
-?
-services.map(x=>
-`<span class="tag">${esc(x)}</span>`
-).join("")
-:
-"<span class='empty'>No services registered.</span>";
+  $("completed").textContent = Number(tech.jobsCompleted || 0);
+  $("owed").textContent = money(owed);
+  $("paid").textContent = money(paid);
+  $("totalOwed").textContent = money(owed);
+  $("totalPaid").textContent = money(paid);
 
-$("completed").textContent=
-Number(tech.jobsCompleted||0);
+  const lock = $("commissionLock");
 
-$("owed").textContent=
-money(tech.commissionOwed);
-
-$("paid").textContent=
-money(tech.commissionPaid);
-
-$("totalOwed").textContent=
-money(tech.commissionOwed);
-
-$("totalPaid").textContent=
-money(tech.commissionPaid);
-
+  if (owed > 0) {
+    lock.innerHTML = `
+      <div class="warning">
+        <b>Outstanding commission: ${money(owed)}</b><br>
+        You must settle this balance and wait for management to confirm
+        receipt before accepting another job.
+      </div>
+    `;
+  } else {
+    lock.innerHTML = `
+      <div class="success">
+        <b>Your commission balance is clear.</b><br>
+        You may accept available jobs, subject to job availability
+        and account status.
+      </div>
+    `;
+  }
 }
 
-async function loadAvailable(){
-
-let box=$("available");
-
-let s=await get(
-ref(db,"serviceRequests")
-);
-
-if(!s.exists()){
-
-box.innerHTML=
-'<div class="empty">No jobs available.</div>';
-
-return;
-
+function showPaymentInstructions() {
+  $("paymentInstructions").innerHTML = `
+    <div class="payment">
+      <b>Commission payment details</b><br>
+      Account name: <b>Owen Singogo</b><br>
+      MTN Mobile Money: <b>${M2}</b><br>
+      Alternate management number: <b>${M1}</b><br><br>
+      <b>How to pay:</b>
+      <ol>
+        <li>Check the exact commission owed on your dashboard.</li>
+        <li>Pay the outstanding amount using the confirmed payment details.</li>
+        <li>Keep your mobile-money transaction message or reference.</li>
+        <li>Contact management and wait for confirmation.</li>
+      </ol>
+      <a class="btn blue" href="tel:${M2}">Call ${M2}</a>
+      <a class="btn dark" href="tel:${M1}">Call ${M1}</a>
+    </div>
+  `;
 }
 
-let services=
-(tech.services||[])
-.map(x=>String(x).toLowerCase());
+async function loadAvailable() {
+  const box = $("available");
 
-let list=[];
+  const snapshot = await get(ref(db,"serviceRequests"));
 
-Object.entries(s.val()).forEach(([id,j])=>{
+  if (!snapshot.exists()) {
+    box.innerHTML = '<div class="empty">No jobs available.</div>';
+    return;
+  }
 
-if(!j||j.status!=="pending")return;
+  const services = (Array.isArray(tech.services) ? tech.services : [])
+    .map(service => String(service).toLowerCase().trim());
 
-let service=
-String(j.serviceType||"").toLowerCase();
+  const list = [];
 
-if(
-services.length &&
-!services.includes(service)
-)return;
+  Object.entries(snapshot.val()).forEach(([id,job]) => {
+    if (!job || job.status !== "pending") return;
 
-list.push({
-id,
-...j
-});
+    const service = String(job.serviceType || "").toLowerCase().trim();
 
-});
+    if (services.length && !services.includes(service)) return;
 
-if(!list.length){
+    list.push({id,...job});
+  });
 
-box.innerHTML=
-'<div class="empty">No matching jobs available right now.</div>';
+  if (!list.length) {
+    box.innerHTML =
+      '<div class="empty">No matching jobs available right now.</div>';
+    return;
+  }
 
-return;
+  list.sort((a,b) =>
+    Number(b.createdAt || 0) - Number(a.createdAt || 0)
+  );
 
+  const locked = isCommissionOutstanding() || tech.active === false;
+
+  box.innerHTML = list.map(job => `
+    <div class="job">
+      <div class="jobtop">
+        <b>${esc(job.serviceType || "Service")}</b>
+        <span class="badge">AVAILABLE</span>
+      </div>
+
+      <p><b>Problem:</b><br>${esc(job.description || "Not provided")}</p>
+      <p><b>Location:</b><br>${esc(job.location || "Not provided")}</p>
+
+      <div class="budget">
+        Suggested budget<br>
+        <b>${money(job.suggestedBudget)}</b>
+      </div>
+
+      <br>
+      <button
+        class="blue"
+        onclick="acceptJob('${esc(job.id)}')"
+        ${locked || accepting ? "disabled" : ""}>
+        ${locked ? "Commission Payment Required" : "Accept Job"}
+      </button>
+    </div>
+  `).join("");
 }
 
-list.sort(
-(a,b)=>
-Number(b.createdAt||0)-
-Number(a.createdAt||0)
-);
+window.acceptJob = async function(id) {
+  if (accepting) return;
 
-box.innerHTML=list.map(j=>`
+  if (!auth.currentUser || auth.currentUser.uid !== uid) {
+    alert("Please log in again.");
+    return;
+  }
 
-<div class="job">
+  accepting = true;
 
-<div class="jobtop">
+  try {
+    // Always refresh the profile before allowing acceptance.
+    const profileSnapshot = await get(ref(db,"users/" + uid));
 
-<b>${esc(j.serviceType)}</b>
+    if (!profileSnapshot.exists()) {
+      throw new Error("Technician profile not found.");
+    }
 
-<span class="badge">
-AVAILABLE
-</span>
+    tech = profileSnapshot.val();
 
-</div>
+    if (tech.role !== "technician" || tech.active === false) {
+      throw new Error("Your technician account is not active.");
+    }
 
-<p>
-<b>Problem:</b><br>
-${esc(j.description)}
-</p>
+    if (isCommissionOutstanding()) {
+      showProfile();
+      alert(
+        "Job acceptance blocked.\n\nOutstanding commission: " +
+        money(getOwed()) +
+        "\n\nPlease pay management and wait for payment confirmation."
+      );
+      await loadAvailable();
+      return;
+    }
 
-<p>
-<b>Location:</b><br>
-${esc(j.location)}
-</p>
+    const requestSnapshot =
+      await get(ref(db,"serviceRequests/" + id));
 
-<div class="budget">
+    if (!requestSnapshot.exists()) {
+      alert("This job request no longer exists.");
+      await loadAvailable();
+      return;
+    }
 
-Suggested budget<br>
+    const job = requestSnapshot.val();
 
-<b>
-${money(j.suggestedBudget)}
-</b>
+    if (job.status !== "pending") {
+      alert("This job is no longer available.");
+      await loadAvailable();
+      return;
+    }
 
-</div>
+    // Check the balance again immediately before writing.
+    const latestProfileSnapshot = await get(ref(db,"users/" + uid));
+    const latestProfile = latestProfileSnapshot.val() || {};
 
-<br>
+    if (
+      latestProfile.role !== "technician" ||
+      latestProfile.active === false ||
+      Number(latestProfile.commissionOwed || 0) > 0
+    ) {
+      tech = latestProfile;
+      showProfile();
+      alert("Your account or commission balance does not permit job acceptance.");
+      await loadAvailable();
+      return;
+    }
 
-<button
-class="blue"
-onclick="acceptJob('${j.id}')">
+    const jobRef = ref(db,"jobs/" + id);
+    const existingJobSnapshot = await get(jobRef);
 
-Accept Job
+    if (existingJobSnapshot.exists()) {
+      alert("A job record already exists for this request.");
+      await loadAvailable();
+      return;
+    }
 
-</button>
+    await set(jobRef,{
+      jobId:id,
+      requestId:id,
+      customerId:job.customerId,
+      technicianId:uid,
+      serviceType:job.serviceType || "",
+      description:job.description || "",
+      location:job.location || "",
+      suggestedBudget:Number(job.suggestedBudget || 0),
+      status:"accepted",
+      finalPrice:null,
+      commissionAmount:0,
+      commissionStatus:"pending",
+      technicianNet:0,
+      createdAt:job.createdAt || serverTimestamp(),
+      acceptedAt:serverTimestamp(),
+      updatedAt:serverTimestamp()
+    });
 
-</div>
+    await update(ref(db,"serviceRequests/" + id),{
+      status:"accepted",
+      technicianId:uid,
+      updatedAt:serverTimestamp()
+    });
 
-`).join("");
+    alert("Job accepted successfully.");
+    await loadAvailable();
+    await loadJobs();
 
-}
-
-window.acceptJob=async id=>{
-
-try{
-
-let s=await get(
-ref(db,"serviceRequests/"+id)
-);
-
-if(!s.exists()){
-
-alert("Job no longer exists.");
-return;
-
-}
-
-let j=s.val();
-
-if(j.status!=="pending"){
-
-alert("This job has already been taken.");
-
-await loadAvailable();
-
-return;
-
-}
-
-await set(
-ref(db,"jobs/"+id),
-{
-
-jobId:id,
-
-requestId:id,
-
-customerId:j.customerId,
-
-technicianId:uid,
-
-serviceType:j.serviceType,
-
-description:j.description,
-
-location:j.location,
-
-suggestedBudget:
-Number(j.suggestedBudget||0),
-
-status:"accepted",
-
-finalPrice:null,
-
-commissionAmount:0,
-
-commissionStatus:"pending",
-
-technicianNet:0,
-
-createdAt:
-j.createdAt||serverTimestamp(),
-
-acceptedAt:
-serverTimestamp(),
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-await update(
-ref(db,"serviceRequests/"+id),
-{
-
-status:"accepted",
-
-technicianId:uid,
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-alert(
-"Job accepted successfully."
-);
-
-await loadAvailable();
-
-await loadJobs();
-
-}catch(e){
-
-console.error(e);
-
-alert(
-"Unable to accept this job: "+
-(e.message||e.code||"Unknown error")
-);
-
-}
-
+  } catch (error) {
+    console.error("Accept job error:",error);
+    alert(
+      "Unable to accept this job: " +
+      (error.message || error.code || "Unknown error")
+    );
+  } finally {
+    accepting = false;
+    await loadAvailable().catch(console.error);
+  }
 };
 
-async function loadJobs(){
+async function loadJobs() {
+  const box = $("jobs");
+  const snapshot = await get(ref(db,"jobs"));
 
-let box=$("jobs");
+  if (!snapshot.exists()) {
+    box.innerHTML = '<div class="empty">You have no jobs yet.</div>';
+    return;
+  }
 
-let s=await get(
-ref(db,"jobs")
-);
+  const list = [];
 
-if(!s.exists()){
+  Object.entries(snapshot.val()).forEach(([id,job]) => {
+    if (job && job.technicianId === uid) {
+      list.push({id,...job});
+    }
+  });
 
-box.innerHTML=
-'<div class="empty">You have no jobs yet.</div>';
+  if (!list.length) {
+    box.innerHTML =
+      '<div class="empty">You have no accepted jobs yet.</div>';
+    return;
+  }
 
-return;
+  list.sort((a,b) =>
+    Number(b.acceptedAt || b.createdAt || 0) -
+    Number(a.acceptedAt || a.createdAt || 0)
+  );
 
+  box.innerHTML = list.map(renderJob).join("");
+
+  for (const job of list) {
+    await contact(job.jobId || job.id);
+  }
 }
 
-let list=[];
+function renderJob(job) {
+  const id = job.jobId || job.id;
+  let action = "";
 
-Object.entries(s.val()).forEach(
-([id,j])=>{
+  if (job.status === "accepted") {
+    action = `
+      <button class="green" onclick="startJob('${esc(id)}')">
+        Start Job
+      </button>
+    `;
+  }
 
-if(
-j &&
-j.technicianId===uid
-){
+  if (job.status === "in_progress") {
+    action = `
+      <label for="price-${esc(id)}"><b>Final agreed price (Kwacha)</b></label>
+      <input
+        class="input"
+        id="price-${esc(id)}"
+        type="number"
+        min="0.01"
+        step="0.01"
+        inputmode="decimal"
+        placeholder="Enter final agreed price">
+      <button class="green" onclick="completeJob('${esc(id)}')">
+        Complete Job
+      </button>
+    `;
+  }
 
-list.push({
-id,
-...j
-});
+  const finalPrice = Number(job.finalPrice);
+  const commission = roundMoney(job.commissionAmount || 0);
+  const net = roundMoney(job.technicianNet ?? (finalPrice - commission));
 
+  return `
+    <div class="job">
+      <div class="jobtop">
+        <b>${esc(job.serviceType || "Service")}</b>
+        <span class="badge">
+          ${esc((job.status || "unknown").replaceAll("_"," ").toUpperCase())}
+        </span>
+      </div>
+
+      <p><b>Problem:</b><br>${esc(job.description || "Not provided")}</p>
+      <p><b>Location:</b><br>${esc(job.location || "Not provided")}</p>
+
+      <div class="budget">
+        Suggested budget<br>
+        <b>${money(job.suggestedBudget)}</b>
+      </div>
+
+      <div id="contact-${esc(id)}"></div>
+
+      <div class="manager">
+        <b>Customer contact</b><br>
+        Customer numbers remain private until management releases them.
+        <br><br>
+        <a class="btn blue" href="tel:${M1}">Call ${M1}</a>
+        <a class="btn dark" href="tel:${M2}">Call ${M2}</a>
+      </div>
+
+      ${job.finalPrice != null ? `
+        <p><b>Final price:</b> ${money(finalPrice)}</p>
+        <p><b>15% commission:</b> ${money(commission)}</p>
+        <p><b>Your amount before other costs:</b> ${money(net)}</p>
+        <p><b>Commission status:</b> ${esc(job.commissionStatus || "pending")}</p>
+        ${job.commissionStatus === "paid"
+          ? '<div class="success">Management has confirmed payment for this job.</div>'
+          : job.commissionStatus === "owed"
+            ? '<div class="warning">Commission is outstanding. Pay management and wait for confirmation.</div>'
+            : ""}
+      ` : ""}
+
+      <br>${action}
+    </div>
+  `;
 }
 
-});
-
-if(!list.length){
-
-box.innerHTML=
-'<div class="empty">You have no accepted jobs yet.</div>';
-
-return;
-
-}
-
-list.sort(
-(a,b)=>
-Number(
-b.acceptedAt||
-b.createdAt||
-0
-)-
-Number(
-a.acceptedAt||
-a.createdAt||
-0
-)
-);
-
-box.innerHTML=
-list.map(renderJob).join("");
-
-for(let j of list){
-
-await contact(j.jobId);
-
-}
-
-}
-
-function renderJob(j){
-
-let action="";
-
-if(j.status==="accepted"){
-
-action=`
-
-<button
-class="green"
-onclick="startJob('${j.jobId}')">
-
-Start Job
-
-</button>
-
-`;
-
-}
-
-if(j.status==="in_progress"){
-
-action=`
-
-<input
-class="input"
-id="price-${j.jobId}"
-type="number"
-min="0"
-step="0.01"
-placeholder="Final agreed price in Kwacha">
-
-<button
-class="green"
-onclick="completeJob('${j.jobId}')">
-
-Complete Job
-
-</button>
-
-`;
-
-}
-
-return`
-
-<div class="job">
-
-<div class="jobtop">
-
-<b>
-${esc(j.serviceType)}
-</b>
-
-<span class="badge">
-
-${esc(
-(j.status||"")
-.replace("_"," ")
-.toUpperCase()
-)}
-
-</span>
-
-</div>
-
-<p>
-<b>Problem:</b><br>
-${esc(j.description)}
-</p>
-
-<p>
-<b>Location:</b><br>
-${esc(j.location)}
-</p>
-
-<div class="budget">
-
-Suggested budget<br>
-
-<b>
-${money(j.suggestedBudget)}
-</b>
-
-</div>
-
-<div id="contact-${j.jobId}">
-</div>
-
-<div class="manager">
-
-<b>Customer contact</b>
-
-<br>
-
-Contact Mule QuickFix management first.
-
-<br><br>
-
-<a
-class="btn blue"
-href="tel:${M1}">
-
-Call ${M1}
-
-</a>
-
-<a
-class="btn dark"
-href="tel:${M2}">
-
-Call ${M2}
-
-</a>
-
-</div>
-
-${j.finalPrice!=null?`
-
-<p>
-<b>Final price:</b>
-${money(j.finalPrice)}
-</p>
-
-<p>
-<b>15% commission:</b>
-${money(j.commissionAmount)}
-</p>
-
-<p>
-<b>Technician amount:</b>
-${money(j.technicianNet)}
-</p>
-
-`:""}
-
-<br>
-
-${action}
-
-</div>
-
-`;
-
-}
-
-window.startJob=async id=>{
-
-try{
-
-let s=await get(
-ref(db,"jobs/"+id)
-);
-
-if(
-!s.exists()||
-s.val().technicianId!==uid
-){
-
-alert(
-"You are not assigned to this job."
-);
-
-return;
-
-}
-
-if(
-s.val().status!=="accepted"
-){
-
-alert(
-"This job cannot be started."
-);
-
-return;
-
-}
-
-await update(
-ref(db,"jobs/"+id),
-{
-
-status:"in_progress",
-
-startedAt:
-serverTimestamp(),
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-await update(
-ref(
-db,
-"serviceRequests/"+s.val().requestId
-),
-{
-
-status:"in_progress",
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-alert("Job started.");
-
-await loadJobs();
-
-}catch(e){
-
-console.error(e);
-
-alert(
-"Unable to start job: "+
-(e.message||e.code||"Unknown error")
-);
-
-}
-
+window.startJob = async function(id) {
+  try {
+    const snapshot = await get(ref(db,"jobs/" + id));
+
+    if (!snapshot.exists() || snapshot.val().technicianId !== uid) {
+      alert("You are not assigned to this job.");
+      return;
+    }
+
+    const job = snapshot.val();
+
+    if (job.status !== "accepted") {
+      alert("This job cannot be started.");
+      return;
+    }
+
+    await update(ref(db,"jobs/" + id),{
+      status:"in_progress",
+      startedAt:serverTimestamp(),
+      updatedAt:serverTimestamp()
+    });
+
+    await update(ref(db,"serviceRequests/" + (job.requestId || id)),{
+      status:"in_progress",
+      updatedAt:serverTimestamp()
+    });
+
+    alert("Job started.");
+    await loadJobs();
+
+  } catch (error) {
+    console.error("Start job error:",error);
+    alert(
+      "Unable to start job: " +
+      (error.message || error.code || "Unknown error")
+    );
+  }
 };
 
-window.completeJob=async id=>{
+window.completeJob = async function(id) {
+  if (completing) return;
 
-let input=$(
-"price-"+id
-);
+  const input = $("price-" + id);
+  const price = Number(input?.value);
 
-let price=
-Number(input?.value||0);
+  if (!Number.isFinite(price) || price <= 0) {
+    alert("Enter a valid final agreed price greater than zero.");
+    return;
+  }
 
-if(price<=0){
+  const finalPrice = roundMoney(price);
+  const commission = roundMoney(finalPrice * RATE);
+  const net = roundMoney(finalPrice - commission);
 
-alert(
-"Enter the final agreed price."
-);
+    if (!confirm(
+    "Confirm final agreed price: " + money(finalPrice) +
+    "\n\n15% platform commission: " + money(commission) +
+    "\nYour amount before other costs: " + money(net) +
+    "\n\nHave you completed this job and agreed on the final price?"
+  )) {
+    return;
+  }
 
-return;
+  try {
+    const jobRef = ref(db, "jobs/" + jobId);
+    const jobSnap = await get(jobRef);
 
+    if (!jobSnap.exists()) {
+      alert("Job not found.");
+      return;
+    }
+
+    const job = jobSnap.val();
+
+    if (job.technicianId !== uid || job.status !== "in_progress") {
+      alert("This job is not assigned to you or is no longer in progress.");
+      return;
+    }
+
+    const userSnap = await get(ref(db, "users/" + uid));
+
+    if (!userSnap.exists()) {
+      alert("Technician profile not found.");
+      return;
+    }
+
+    const user = userSnap.val();
+    const currentOwed = Number(user.commissionOwed || 0);
+
+    // Prevent completing another job while an earlier commission is owed.
+    if (currentOwed > 0) {
+      alert(
+        "You have an outstanding platform commission of " +
+        money(currentOwed) +
+        ". Please settle it and wait for CEO confirmation before proceeding."
+      );
+      return;
+    }
+
+    const changes = {};
+
+    changes["jobs/" + jobId + "/status"] = "completed";
+    changes["jobs/" + jobId + "/finalPrice"] = finalPrice;
+    changes["jobs/" + jobId + "/commissionAmount"] = commission;
+    changes["jobs/" + jobId + "/commissionStatus"] = "owed";
+    changes["jobs/" + jobId + "/technicianNet"] = net;
+    changes["jobs/" + jobId + "/completedAt"] = Date.now();
+
+    if (job.requestId) {
+      changes["serviceRequests/" + job.requestId + "/status"] = "completed";
+    } else {
+      changes["serviceRequests/" + jobId + "/status"] = "completed";
+    }
+
+    changes["users/" + uid + "/commissionOwed"] =
+      currentOwed + commission;
+
+    changes["users/" + uid + "/jobsCompleted"] =
+      Number(user.jobsCompleted || 0) + 1;
+
+    await update(ref(db), changes);
+
+    alert(
+      "Job marked as completed.\n\n" +
+      "Final price: " + money(finalPrice) + "\n" +
+      "15% commission owed: " + money(commission) + "\n" +
+      "Your amount before other costs: " + money(net) + "\n\n" +
+      "Please pay the platform commission using the instructions displayed."
+    );
+
+    const priceInput = document.getElementById("price-" + jobId);
+    if (priceInput) priceInput.value = "";
+
+    await showProfile();
+    await loadJobs();
+    await loadAvailable();
+
+  } catch (error) {
+    console.error("Complete job error:", error);
+    alert(
+      "Unable to complete the job. Please check your connection and try again.\n\n" +
+      (error.message || "Unknown error")
+    );
+  }
 }
 
-if(!confirm(
-"Confirm final agreed price of "+
-money(price)+"?"
-))return;
 
-try{
+// Show customer contact details only after authorized release.
+async function contact(jobId) {
+  const container = document.getElementById("contact-" + jobId);
+  if (!container) return;
 
-let s=await get(
-ref(db,"jobs/"+id)
-);
+  container.innerHTML = "Checking customer contact authorization...";
 
-if(
-!s.exists()||
-s.val().technicianId!==uid
-){
+  try {
+    const jobSnap = await get(ref(db, "jobs/" + jobId));
 
-alert(
-"You are not assigned to this job."
-);
+    if (!jobSnap.exists()) {
+      container.innerHTML = "Job not found.";
+      return;
+    }
 
-return;
+    const job = jobSnap.val();
 
+    if (job.technicianId !== uid) {
+      container.innerHTML = "You are not authorized to view this customer's details.";
+      return;
+    }
+
+    const releaseSnap = await get(ref(db, "contactReleases/" + jobId));
+
+    if (!releaseSnap.exists()) {
+      container.innerHTML =
+        "Customer phone number is hidden. Contact management if you need assistance.";
+      return;
+    }
+
+    const release = releaseSnap.val();
+
+    if (release.released !== true || release.technicianId !== uid) {
+      container.innerHTML =
+        "Customer phone number is hidden until management authorizes its release.";
+      return;
+    }
+
+    const phone = release.customerPhone;
+
+    if (!phone) {
+      container.innerHTML =
+        "Management has authorized contact, but no phone number is available.";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    const message = document.createElement("p");
+    message.textContent = "Customer phone: " + phone;
+
+    const callLink = document.createElement("a");
+    callLink.href = "tel:" + phone;
+    callLink.textContent = "Call Customer";
+
+    container.appendChild(message);
+    container.appendChild(callLink);
+
+  } catch (error) {
+    console.error("Customer contact error:", error);
+    container.textContent =
+      "Could not check contact authorization. Please try again.";
+  }
 }
 
-let j=s.val();
 
-if(j.status!=="in_progress"){
-
-alert(
-"This job is not in progress."
-);
-
-return;
-
+// Sign out safely.
+async function logout() {
+  try {
+    await signOut(auth);
+    window.location.href = "../login.html";
+  } catch (error) {
+    console.error("Logout error:", error);
+    alert("Unable to log out. Please try again.");
+  }
 }
-
-let commission=
-price*RATE;
-
-let net=
-price-commission;
-
-await update(
-ref(db,"jobs/"+id),
-{
-
-status:"completed",
-
-finalPrice:price,
-
-commissionAmount:commission,
-
-commissionStatus:"owed",
-
-technicianNet:net,
-
-completedAt:
-serverTimestamp(),
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-await update(
-ref(
-db,
-"serviceRequests/"+j.requestId
-),
-{
-
-status:"completed",
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-let p=await get(
-ref(db,"users/"+uid)
-);
-
-let u=p.val()||{};
-
-await update(
-ref(db,"users/"+uid),
-{
-
-commissionOwed:
-Number(u.commissionOwed||0)+
-commission,
-
-jobsCompleted:
-Number(u.jobsCompleted||0)+1,
-
-updatedAt:
-serverTimestamp()
-
-}
-);
-
-tech.commissionOwed=
-Number(tech.commissionOwed||0)+
-commission;
-
-tech.jobsCompleted=
-Number(tech.jobsCompleted||0)+1;
-
-showProfile();
-
-alert(
-
-"Job completed successfully.\n\n"+
-
-"Final price: "+
-money(price)+
-
-"\nCommission: "+
-money(commission)+
-
-"\nYour amount: "+
-money(net)
-
-);
-
-await loadJobs();
-
-}catch(e){
-
-console.error(e);
-
-alert(
-"Unable to complete job: "+
-(e.message||e.code||"Unknown error")
-);
-
-}
-
-};
-
-async function contact(id){
-
-let box=$(
-"contact-"+id
-);
-
-if(!box)return;
-
-try{
-
-let s=await get(
-ref(db,"contactReleases/"+id)
-);
-
-if(
-s.exists()&&
-s.val().released===true
-){
-
-let phone=
-s.val().customerPhone;
-
-box.innerHTML=`
-
-<div class="notice">
-
-<b>
-Customer number released
-</b>
-
-<br>
-
-<a
-class="btn blue"
-href="tel:${esc(phone)}">
-
-Call ${esc(phone)}
-
-</a>
-
-</div>
-
-<br>
-
-`;
-
-}else{
-
-box.innerHTML=`
-
-<div class="notice">
-
-Customer number is not released yet.
-
-Please call Mule QuickFix management.
-
-</div>
-
-<br>
-
-`;
-
-}
-
-}catch(e){
-
-console.error(
-"Contact release error:",
-e
-);
-
-box.innerHTML="";
-
-}
-
-}
-
-$("logout").onclick=async()=>{
-
-if(!confirm(
-"Logout from Mule QuickFix?"
-))return;
-
-await signOut(auth);
-
-location.href="../login.html";
-
-};
-
-</script></body>
+</script>
+</body>
 </html>
