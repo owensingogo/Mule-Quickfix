@@ -4,41 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b7a">
-  <title>Technician Dashboard | Mule QuickFix</title>
+  <title>Mule QuickFix | Technician Dashboard</title>
 
   <style>
     :root {
       --blue: #173b8f;
       --blue-light: #2563eb;
-      --background: #f4f7fb;
-      --white: #fff;
-      --text: #172033;
-      --muted: #64748b;
-      --green: #16834a;
-      --red: #c62828;
-      --border: #e1e7ef;
-      --radius: 14px;
+      --bg: #f3f6fb;
+      --white: #ffffff;
+      --text: #182230;
+      --muted: #667085;
+      --green: #16803c;
+      --red: #b42318;
+      --border: #e4e7ec;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: var(--background);
+      font-family: Arial, sans-serif;
       color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.5;
+      background: var(--bg);
     }
 
     header {
-      background: var(--blue);
       color: white;
-      padding: 16px;
+      background: var(--blue);
+      padding: 18px 16px;
     }
 
     .header-inner, main {
-      width: min(1100px, 94%);
+      width: min(1100px, 100%);
       margin: auto;
     }
 
@@ -47,879 +44,1153 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
     }
 
-    h1 { font-size: 21px; margin: 0; }
-    h2 { font-size: 19px; margin-top: 0; }
-    h3 { font-size: 16px; }
+    header h1 { margin: 0; font-size: 21px; }
+    header p { margin: 5px 0 0; opacity: .9; }
 
-    main { padding: 20px 0 45px; }
+    main { padding: 18px 14px 40px; }
 
-    .hero, .card {
+    .card {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 14px;
       padding: 18px;
       margin-bottom: 16px;
+      box-shadow: 0 2px 8px #1018280a;
     }
 
-    .hero {
-      background: linear-gradient(135deg, #173b8f, #2563eb);
-      color: white;
+    h2 { font-size: 19px; margin: 0 0 14px; }
+    h3 { font-size: 16px; margin: 0 0 10px; }
+    p { line-height: 1.5; }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #e8eefc;
+      flex-shrink: 0;
+    }
+
+    .profile h2 { margin-bottom: 5px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      min-width: 0;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
-    }
-
-    .stat {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .stat small { color: var(--muted); }
-    .stat strong { display: block; font-size: 23px; margin-top: 5px; }
-
-    button, .button {
-      display: inline-block;
-      border: 0;
-      border-radius: 9px;
-      background: var(--blue-light);
-      color: white;
-      padding: 11px 15px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      margin: 4px 3px 4px 0;
-    }
-
-    button:disabled { opacity: .55; cursor: not-allowed; }
-    .secondary { background: #475569; }
-    .success { background: var(--green); }
-    .danger { background: var(--red); }
-
-    input, select {
-      display: block;
-      width: 100%;
-      max-width: 420px;
-      padding: 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      margin: 7px 0 12px;
-      font-size: 16px;
-      background: white;
     }
 
     .job {
       border: 1px solid var(--border);
-      padding: 15px;
       border-radius: 12px;
-      margin: 12px 0;
-      background: white;
-      overflow-wrap: anywhere;
-    }
-
-    .job p { margin: 6px 0; }
-    .muted { color: var(--muted); }
-    .status { font-weight: bold; }
-    .payment-box {
-      background: #effaf2;
-      border: 1px solid #9bd4ac;
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .warning-box {
-      background: #fff7e6;
-      border: 1px solid #f1d08a;
       padding: 14px;
+      margin-bottom: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .job:last-child { margin-bottom: 0; }
+    .job h3 { margin-bottom: 8px; }
+
+    .status {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      background: #eef2ff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .status.good { background: #e7f7ed; color: var(--green); }
+    .status.bad { background: #feeceb; color: var(--red); }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 14px;
+      background: var(--blue-light);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 4px 4px 4px 0;
+    }
+
+    button.secondary { background: #475467; }
+    button.success { background: var(--green); }
+    button.danger { background: var(--red); }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #cfd4dc;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 6px 0 12px;
+      font: inherit;
+      background: white;
+    }
+
+    label { font-size: 14px; font-weight: bold; }
+
+    .payment-option {
+      border: 1px solid var(--border);
       border-radius: 10px;
-      margin: 12px 0;
+      padding: 14px;
+      margin: 10px 0;
+    }
+
+    .payment-option p { margin: 6px 0; }
+
+    .notice {
+      background: #fff7e6;
+      color: #854d0e;
+      border: 1px solid #f5d28c;
+      border-radius: 9px;
+      padding: 12px;
+      line-height: 1.5;
+    }
+
+    .success-notice {
+      background: #eaf7ee;
+      color: #176534;
+      border: 1px solid #b7e2c4;
+      border-radius: 9px;
+      padding: 12px;
+      line-height: 1.5;
+    }
+
+    .error {
+      background: #feeceb;
+      color: #912018;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 14px;
+      display: none;
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 12px 0;
     }
 
     .hidden { display: none !important; }
-    .error { color: var(--red); }
-    .success-text { color: var(--green); }
-    .section-heading { margin-top: 26px; }
 
     footer {
       text-align: center;
+      padding: 18px;
       color: var(--muted);
-      padding: 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 650px) {
+      .grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .stat strong { font-size: 18px; }
+      .card { padding: 14px; }
     }
   </style>
 </head>
 
 <body>
-<header>
-  <div class="header-inner">
-    <div>
-      <h1>Mule QuickFix</h1>
-      <small>Technician Office</small>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>Mule QuickFix</h1>
+        <p>Technician Dashboard</p>
+      </div>
+      <button id="logoutBtn" class="secondary" type="button">
+        Log Out
+      </button>
     </div>
-    <button id="logoutBtn" class="secondary" type="button">Logout</button>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section class="hero">
-    <h2>Welcome, <span id="welcomeName">Technician</span></h2>
-    <p>Manage your jobs, track your earnings and settle platform commission.</p>
-    <p id="accountStatus">Checking your account...</p>
-  </section>
+  <main>
+    <div id="errorBox" class="error"></div>
 
-  <section class="card">
-    <h2>Technician Profile</h2>
-    <p><strong>Name:</strong> <span id="profileName">—</span></p>
-    <p><strong>Phone:</strong> <span id="profilePhone">—</span></p>
-    <p><strong>Services:</strong> <span id="profileServices">—</span></p>
-    <p><strong>Account:</strong> <span id="profileActive">—</span></p>
-  </section>
+    <section class="card">
+      <div class="profile">
+        <img id="avatar" class="avatar" alt="Technician profile"
+             src="https://placehold.co/100x100?text=MQ">
+        <div>
+          <h2 id="welcome">Loading your profile...</h2>
+          <div id="profileDetails" class="muted small"></div>
+          <p id="servicesText" class="small"></p>
+        </div>
+      </div>
+    </section>
 
-  <section class="grid">
-    <div class="stat">
-      <small>Completed Jobs</small>
-      <strong id="jobsCompleted">0</strong>
-    </div>
-    <div class="stat">
-      <small>Commission Outstanding</small>
-      <strong id="commissionOwed">K0.00</strong>
-    </div>
-    <div class="stat">
-      <small>Commission Paid</small>
-      <strong id="commissionPaid">K0.00</strong>
-    </div>
-  </section>
+    <section class="card">
+      <h2>My Performance</h2>
+      <div class="stats">
+        <div class="stat">
+          <span class="muted small">Jobs completed</span>
+          <strong id="completedCount">0</strong>
+        </div>
+        <div class="stat">
+          <span class="muted small">Commission owed</span>
+          <strong id="owedAmount">K0.00</strong>
+        </div>
+        <div class="stat">
+          <span class="muted small">Commission paid</span>
+          <strong id="paidAmount">K0.00</strong>
+        </div>
+      </div>
+    </section>
 
-  <section class="card section-heading" id="commissionSection">
-    <h2>Commission &amp; Payment</h2>
-    <p>Mule QuickFix charges 15% of the final agreed job price.</p>
-    <p><strong>Outstanding:</strong> <span id="paymentOwed">K0.00</span></p>
-    <p><strong>Status:</strong> <span id="paymentStatus">Checking...</span></p>
+    <section class="card">
+      <h2>Commission Clearance</h2>
+      <div id="clearanceStatus" class="notice">
+        Checking your commission status...
+      </div>
 
-    <div id="paymentInstructions" class="payment-box hidden">
-      <h3>Pay Your Platform Commission</h3>
-      <p><strong>Payment provider:</strong> MTN Mobile Money</p>
-      <p><strong>Account name:</strong> Owen Singogo</p>
-      <p><strong>Payment number:</strong>
-        <a href="tel:0768217115">0768217115</a>
-      </p>
-      <p><strong>Exact amount to pay:</strong>
-        <span id="paymentAmount">K0.00</span>
-      </p>
-
-      <h3>Payment Steps</h3>
-      <ol>
-        <li>Open MTN Mobile Money on your phone.</li>
-        <li>Select Send Money.</li>
-        <li>Enter <strong>0768217115</strong>.</li>
-        <li>Confirm the recipient name is Owen Singogo before proceeding.</li>
-        <li>Send the exact commission amount shown above.</li>
-        <li>Keep the transaction reference from your payment confirmation.</li>
-        <li>Enter the reference below and submit it for CEO verification.</li>
-      </ol>
-
-      <label for="paymentReference"><strong>Mobile Money transaction reference</strong></label>
-      <input id="paymentReference" type="text"
-        placeholder="Enter your transaction reference"
-        maxlength="100" autocomplete="off">
-
-      <button id="submitPaymentBtn" class="success" type="button">
-        Submit Payment Reference
+      <button id="checkCommissionBtn" type="button">
+        Check Commission Clearance
       </button>
 
-      <p class="muted">
-        Submitting a reference does not confirm payment. Your commission remains
-        outstanding until the CEO verifies receipt.
+      <p class="muted small">
+        You must have no outstanding commission before accepting another job.
+        Payments are not cleared automatically. The CEO must confirm receipt.
       </p>
+    </section>
+
+    <section class="card">
+      <h2>Commission Payment Details</h2>
+      <p>
+        Pay the platform commission of <strong>15% of the final agreed job price</strong>.
+        You can use either mobile money option below.
+      </p>
+
+      <div class="payment-option">
+        <h3>MTN Mobile Money</h3>
+        <p><strong>Account name:</strong> Owen Singogo</p>
+        <p><strong>Payment number:</strong> <span id="mtnNumber">0768217115</span></p>
+        <button type="button" class="secondary" data-copy="0768217115">
+          Copy MTN Number
+        </button>
+      </div>
+
+      <div class="payment-option">
+        <h3>Airtel Money</h3>
+        <p><strong>Account name:</strong> Owen Singogo</p>
+        <p><strong>Payment number:</strong> <span id="airtelNumber">0972632701</span></p>
+        <button type="button" class="secondary" data-copy="0972632701">
+          Copy Airtel Number
+        </button>
+      </div>
+
+      <form id="paymentForm">
+        <label for="paymentProvider">Payment method</label>
+        <select id="paymentProvider" required>
+          <option value="MTN Mobile Money">MTN Mobile Money</option>
+          <option value="Airtel Money">Airtel Money</option>
+        </select>
+
+        <label for="paymentReference">Payment reference / transaction ID</label>
+        <input id="paymentReference" type="text" maxlength="100"
+               placeholder="Enter your payment reference" required>
+
+        <button id="submitPaymentBtn" type="submit">
+          Submit Payment Reference
+        </button>
+      </form>
+
+      <div id="paymentMessage" class="muted small" aria-live="polite"></div>
+
+      <p class="notice">
+        Submitting a reference does not clear your commission. Keep your payment
+        confirmation and wait for the CEO to verify the payment.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Available Jobs</h2>
+        <div id="availableJobs"><p class="empty">Loading available jobs...</p></div>
+      </section>
+
+      <section class="card">
+        <h2>My Jobs</h2>
+        <div id="myJobs"><p class="empty">Loading your jobs...</p></div>
+      </section>
     </div>
+  </main>
 
-    <div id="noCommissionMessage">
-      <p class="success-text">You have no outstanding commission.</p>
-    </div>
-  </section>
+  <footer>Mule QuickFix · Technician Services Platform</footer>
 
-  <section class="card section-heading">
-    <h2>Available Jobs</h2>
-    <p id="availableMessage" class="muted">Loading available jobs...</p>
-    <div id="availableJobs"></div>
-  </section>
+  <script type="module">
+    import { auth, db } from "../firebase.js";
 
-  <section class="card section-heading">
-    <h2>My Jobs</h2>
-    <p id="myJobsMessage" class="muted">Loading your jobs...</p>
-    <div id="myJobs"></div>
-  </section>
-</main>
+    import {
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-<footer>Mule QuickFix — Connecting customers with technicians.</footer>
+    import {
+      ref,
+      get,
+      set,
+      update,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
-<script type="module">
-  import { auth, db } from "../firebase.js";
+    const COMMISSION_RATE = 0.15;
+    const MTN_NUMBER = "0768217115";
+    const AIRTEL_NUMBER = "0972632701";
+    const PAYMENT_ACCOUNT = "Owen Singogo";
 
-  import {
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    let uid = null;
+    let tech = {};
+    let jobsCache = {};
+    let requestsCache = {};
+    let clearanceIsCurrent = false;
 
-  import {
-    ref,
-    get,
-    update,
-    set,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    const $ = id => document.getElementById(id);
 
-  const RATE = 0.15;
-  const PAYMENT_NAME = "Owen Singogo";
-  const PAYMENT_NUMBER = "0768217115";
-
-  let uid = null;
-  let tech = {};
-  let outstanding = 0;
-  let busy = false;
-
-  const $ = id => document.getElementById(id);
-
-  function money(value) {
-    return "K" + Number(value || 0).toLocaleString("en-ZM", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
-  }
-
-  function safe(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[char]);
-  }
-
-  function showError(message) {
-    alert(message);
-  }
-
-  function lockMessage() {
-    return outstanding > 0
-      ? "You have outstanding commission of " + money(outstanding) +
-        ". Settle it and wait for CEO confirmation before accepting another job."
-      : "";
-  }
-
-  onAuthStateChanged(auth, async user => {
-    if (!user) {
-      window.location.href = "../login.html";
-      return;
+    function money(value) {
+      return "K" + Number(value || 0).toFixed(2);
     }
 
-    uid = user.uid;
-
-    try {
-      const snap = await get(ref(db, "users/" + uid));
-
-      if (!snap.exists()) {
-        showError("Your technician profile could not be found.");
-        await signOut(auth);
-        window.location.href = "../login.html";
-        return;
-      }
-
-      tech = snap.val();
-
-      if (tech.role !== "technician") {
-        showError("This dashboard is for technician accounts only.");
-        window.location.href = "../login.html";
-        return;
-      }
-
-      if (tech.active === false) {
-        showError("Your account is inactive. Please contact management.");
-        await signOut(auth);
-        window.location.href = "../login.html";
-        return;
-      }
-
-      await refreshDashboard();
-    } catch (error) {
-      console.error(error);
-      $("accountStatus").textContent =
-        "Could not load your account. Check your connection and Firebase permissions.";
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[char]);
     }
-  });
 
-  async function refreshDashboard() {
-    const snap = await get(ref(db, "users/" + uid));
-    if (!snap.exists()) throw new Error("Technician profile missing.");
+    function showError(message) {
+      const box = $("errorBox");
+      box.textContent = message;
+      box.style.display = "block";
+    }
 
-    tech = snap.val();
-    outstanding = Number(tech.commissionOwed || 0);
+    function clearError() {
+      $("errorBox").style.display = "none";
+      $("errorBox").textContent = "";
+    }
 
-    showProfile();
-    renderPaymentPanel();
-    await loadAvailable();
-    await loadJobs();
-  }
+    function getServiceList(user) {
+      const value = user.services || user.serviceTypes || [];
+      if (Array.isArray(value)) return value.join(", ");
+      if (typeof value === "string") return value;
+      if (value && typeof value === "object") {
+        return Object.keys(value).filter(key => value[key]).join(", ");
+      }
+      return "No services listed";
+    }
 
-  function showProfile() {
-    const name = tech.fullName || tech.name || "Technician";
+    function matchesTechnician(request) {
+      const offered = request.service || request.serviceType ||
+                      request.category || request.title || "";
+      const technicianServices = getServiceList(tech)
+        .split(",")
+        .map(s => s.trim().toLowerCase())
+        .filter(Boolean);
 
-    $("welcomeName").textContent = name;
-    $("profileName").textContent = name;
-    $("profilePhone").textContent = tech.phone || "Not provided";
+      if (!technicianServices.length || technicianServices.includes("all")) {
+        return true;
+      }
 
-    $("profileServices").textContent = Array.isArray(tech.services)
-      ? tech.services.join(", ")
-      : (tech.services || "Not specified");
+      return technicianServices.some(service =>
+        String(offered).toLowerCase().includes(service) ||
+        service.includes(String(offered).toLowerCase())
+      );
+    }
 
-    $("profileActive").textContent =
-      tech.active === false ? "Inactive" : "Active";
+    function isPending(request) {
+      const status = String(request.status || "pending").toLowerCase();
+      return ["pending", "available", "new"].includes(status) &&
+             !request.technicianId;
+    }
 
-    $("jobsCompleted").textContent = Number(tech.jobsCompleted || 0);
-    $("commissionOwed").textContent = money(tech.commissionOwed);
-    $("commissionPaid").textContent = money(tech.commissionPaid);
+    function jobStatus(job) {
+      return String(job.status || "accepted").toLowerCase();
+    }
 
-    $("accountStatus").textContent = outstanding > 0
-      ? "Commission outstanding: " + money(outstanding)
-      : "Your account is ready for available jobs.";
-  }
+    function isAssigned(job) {
+      return job.technicianId === uid || job.technicianUid === uid;
+    }
 
-  function renderPaymentPanel() {
-    $("paymentOwed").textContent = money(outstanding);
-    $("paymentAmount").textContent = money(outstanding);
+    function getFinalPrice(job) {
+      return Number(job.finalPrice ?? job.agreedPrice ?? 0);
+    }
 
-    $("paymentInstructions").classList.toggle("hidden", outstanding <= 0);
-    $("noCommissionMessage").classList.toggle("hidden", outstanding > 0);
+    function getJobCommission(job) {
+      const price = getFinalPrice(job);
+      return Number(job.commissionAmount ?? (price * COMMISSION_RATE));
+    }
 
-    $("paymentStatus").textContent = outstanding > 0
-      ? "Awaiting CEO Confirmation — Commission Owed"
-      : "No Outstanding Commission";
+    function getOutstandingBalance() {
+      return Number(tech.commissionOwed || 0);
+    }
 
-    $("submitPaymentBtn").disabled = outstanding <= 0;
-  }
+    async function loadProfile() {
+      const snapshot = await get(ref(db, "users/" + uid));
 
-  async function loadAvailable() {
-    const container = $("availableJobs");
-    container.innerHTML = "";
+      if (!snapshot.exists()) {
+        throw new Error("Your technician profile was not found.");
+      }
 
-    try {
-      const snap = await get(ref(db, "serviceRequests"));
+      tech = snapshot.val();
 
-      if (!snap.exists()) {
-        $("availableMessage").textContent = "No available jobs at the moment.";
+      if (String(tech.role || "").toLowerCase() !== "technician") {
+        await signOut(auth);
+        location.href = "../login.html";
         return;
       }
 
-      const requests = snap.val();
-      let count = 0;
+      if (tech.active === false || tech.active === "false") {
+        await signOut(auth);
+        alert("Your technician account is inactive. Please contact management.");
+        location.href = "../login.html";
+        return;
+      }
 
-      for (const [id, job] of Object.entries(requests)) {
-        if (!job || job.status !== "pending") continue;
+      $("welcome").textContent = "Welcome, " +
+        (tech.fullName || tech.name || "Technician");
 
-        const requestedService = String(
-          job.service || job.serviceType || ""
-        ).toLowerCase();
+      $("profileDetails").textContent =
+        (tech.phone || "Phone not provided") + " · " +
+        (tech.place || tech.location || "Location not provided");
 
-        const services = Array.isArray(tech.services)
-          ? tech.services.map(s => String(s).toLowerCase())
-          : String(tech.services || "")
-              .split(",")
-              .map(s => s.trim().toLowerCase());
+      $("servicesText").textContent =
+        "Services: " + getServiceList(tech);
+
+      if (tech.photoURL || tech.avatar) {
+        $("avatar").src = tech.photoURL || tech.avatar;
+      }
+
+      $("completedCount").textContent = Number(tech.jobsCompleted || 0);
+      $("owedAmount").textContent = money(tech.commissionOwed);
+      $("paidAmount").textContent = money(tech.commissionPaid);
+
+      await checkCommissionClearance(false);
+    }
+
+    async function loadAvailable() {
+      const container = $("availableJobs");
+
+      try {
+        const snapshot = await get(ref(db, "serviceRequests"));
+        requestsCache = snapshot.exists() ? snapshot.val() : {};
+
+        const available = Object.entries(requestsCache).filter(([id, request]) =>
+          isPending(request) && matchesTechnician(request)
+        );
+
+        if (!available.length) {
+          container.innerHTML =
+            '<p class="empty">There are no matching jobs available right now.</p>';
+          return;
+        }
+
+        container.innerHTML = available.map(([id, request]) => `
+          <div class="job">
+            <span class="status">Available</span>
+            <h3>${escapeHTML(request.service || request.serviceType ||
+                              request.category || request.title || "Service request")}</h3>
+            <p><strong>Location:</strong>
+              ${escapeHTML(request.location || request.place || "See job details")}
+            </p>
+            <p><strong>Description:</strong>
+              ${escapeHTML(request.description || request.details || "No description provided")}
+            </p>
+            <p><strong>Estimated price:</strong>
+              ${request.estimatedPrice != null ? money(request.estimatedPrice) : "To be agreed"}
+            </p>
+            <button type="button" data-accept="${escapeHTML(id)}">
+              Accept Job
+            </button>
+          </div>
+        `).join("");
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML =
+          '<p class="empty">Could not load available jobs. Check your connection and Firebase permissions.</p>';
+      }
+    }
+
+    async function checkCommissionClearance(showMessage = true) {
+      const box = $("clearanceStatus");
+      const button = $("checkCommissionBtn");
+
+      if (!uid) return false;
+
+      button.disabled = true;
+      box.className = "notice";
+      box.textContent = "Verifying your commission balance...";
+
+      try {
+        const [userSnap, jobsSnap] = await Promise.all([
+          get(ref(db, "users/" + uid)),
+          get(ref(db, "jobs"))
+        ]);
+
+        if (!userSnap.exists()) {
+          throw new Error("Technician profile could not be found.");
+        }
+
+        tech = userSnap.val();
+        const userOwed = Number(tech.commissionOwed || 0);
+        const allJobs = jobsSnap.exists() ? jobsSnap.val() : {};
+
+        const unpaidJobs = Object.entries(allJobs).filter(([id, job]) =>
+          isAssigned(job) &&
+          String(job.status || "").toLowerCase() === "completed" &&
+          ["owed", "pending", "unpaid"].includes(
+            String(job.commissionStatus || "").toLowerCase()
+          )
+        );
+
+        const jobOwed = unpaidJobs.reduce((sum, [, job]) =>
+          sum + getJobCommission(job), 0
+        );
+
+        const owed = Math.max(userOwed, jobOwed);
+        clearanceIsCurrent = owed <= 0;
+
+        $("owedAmount").textContent = money(userOwed);
+        $("paidAmount").textContent = money(tech.commissionPaid);
+
+        if (clearanceIsCurrent) {
+          box.className = "success-notice";
+          box.textContent =
+            "Commission cleared. You may accept another job.";
+        } else {
+          box.className = "notice";
+          box.textContent =
+            "Commission outstanding: " + money(owed) +
+            ". Pay the balance and wait for CEO confirmation before accepting another job.";
+        }
+
+        if (showMessage) {
+          $("paymentMessage").textContent = clearanceIsCurrent
+            ? "Your recorded commission balance is clear."
+            : "Your payment must be confirmed by the CEO before you can accept another job.";
+        }
+
+        return clearanceIsCurrent;
+
+      } catch (error) {
+        console.error(error);
+        clearanceIsCurrent = false;
+        box.className = "notice";
+        box.textContent =
+          "Commission status could not be verified. For your protection, you cannot accept a new job until it can be checked.";
+        if (showMessage) showError(error.message || "Could not check commission status.");
+        return false;
+
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function acceptJob(jobId) {
+      clearError();
+
+      // Recheck the current balance every time a job is accepted.
+      const cleared = await checkCommissionClearance(true);
+
+      if (!cleared) {
+        alert("You must clear your outstanding commission and wait for CEO confirmation before accepting another job.");
+        return;
+      }
+
+      try {
+        const [requestSnap, userSnap] = await Promise.all([
+          get(ref(db, "serviceRequests/" + jobId)),
+          get(ref(db, "users/" + uid))
+        ]);
+
+        if (!requestSnap.exists()) {
+          alert("This job is no longer available.");
+          await refreshDashboard();
+          return;
+        }
+
+        if (!userSnap.exists()) {
+          throw new Error("Technician profile could not be found.");
+        }
+
+        const currentUser = userSnap.val();
+
+        if (Number(currentUser.commissionOwed || 0) > 0) {
+          alert("You still have commission outstanding. Please clear it first.");
+          await loadProfile();
+          return;
+        }
+
+        const request = requestSnap.val();
+        if (!isPending(request)) {
+          alert("This job has already been accepted or is no longer available.");
+          await refreshDashboard();
+          return;
+        }
+
+        const jobData = {
+          ...request,
+          jobId,
+          technicianId: uid,
+          technicianName: currentUser.fullName || currentUser.name || "Technician",
+          status: "accepted",
+          finalPrice: null,
+          commissionAmount: 0,
+          commissionStatus: "pending",
+          technicianNet: 0,
+          acceptedAt: serverTimestamp()
+        };
+
+        await set(ref(db, "jobs/" + jobId), jobData);
+
+        await update(ref(db, "serviceRequests/" + jobId), {
+          status: "accepted",
+          technicianId: uid,
+          technicianName: currentUser.fullName || currentUser.name || "Technician",
+          acceptedAt: serverTimestamp()
+        });
+
+        alert("Job accepted successfully.");
+        await refreshDashboard();
+
+      } catch (error) {
+        console.error(error);
+        showError("Could not accept the job. " +
+          (error.message || "Please check your connection and Firebase permissions."));
+      }
+    }
+
+    async function loadJobs() {
+      const container = $("myJobs");
+
+      try {
+        const snapshot = await get(ref(db, "jobs"));
+        jobsCache = snapshot.exists() ? snapshot.val() : {};
+
+        const mine = Object.entries(jobsCache).filter(([id, job]) =>
+          isAssigned(job)
+        );
+
+        if (!mine.length) {
+          container.innerHTML =
+            '<p class="empty">You have not accepted any jobs yet.</p>';
+          return;
+        }
+
+        mine.sort((a,
+b) =>
+          Number(b[1].acceptedAt || 0) - Number(a[1].acceptedAt || 0)
+        );
+
+        container.innerHTML = mine.map(([id, job]) =>
+          renderJob(id, job)
+        ).join("");
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML =
+          '<p class="empty">Could not load your jobs. Check Firebase permissions.</p>';
+      }
+    }
+
+    function renderJob(id, job) {
+      const status = jobStatus(job);
+      const finalPrice = getFinalPrice(job);
+      const commission = getJobCommission(job);
+
+      const isCompleted = status === "completed";
+      const isInProgress =
+        status === "in_progress" || status === "in progress";
+      const isAccepted = status === "accepted";
+
+      let actions = "";
+
+      if (isAccepted) {
+        actions += `
+          <button type="button"
+                  data-start="${escapeHTML(id)}">
+            Start Job
+          </button>
+        `;
+      }
+
+      if (isInProgress) {
+        actions += `
+          <label for="price-${escapeHTML(id)}">
+            Final agreed price (K)
+          </label>
+          <input id="price-${escapeHTML(id)}"
+                 type="number"
+                 min="0.01"
+                 step="0.01"
+                 placeholder="Enter final price">
+
+          <button type="button"
+                  class="success"
+                  data-complete="${escapeHTML(id)}">
+            Complete Job
+          </button>
+        `;
+      }
+
+      if (isCompleted) {
+        actions += `
+          <p><strong>Final price:</strong> ${money(finalPrice)}</p>
+          <p><strong>15% commission:</strong> ${money(commission)}</p>
+          <p><strong>Technician amount before other costs:</strong>
+            ${money(job.technicianNet ?? (finalPrice - commission))}
+          </p>
+          <span class="status ${
+            job.commissionStatus === "paid" ? "good" : "bad"
+          }">
+            Commission: ${escapeHTML(job.commissionStatus || "pending")}
+          </span>
+        `;
+      }
+
+      return `
+        <div class="job">
+          <span class="status">
+            ${escapeHTML(status.replace("_", " "))}
+          </span>
+
+          <h3>${escapeHTML(
+            job.service || job.serviceType ||
+            job.category || job.title || "Service job"
+          )}</h3>
+
+          <p><strong>Location:</strong>
+            ${escapeHTML(job.location || job.place || "Not provided")}
+          </p>
+
+          <p><strong>Description:</strong>
+            ${escapeHTML(job.description || job.details || "No description provided")}
+          </p>
+
+          <button type="button"
+                  class="secondary"
+                  data-contact="${escapeHTML(id)}">
+            Customer Contact
+          </button>
+
+          <div id="contact-${escapeHTML(id)}"
+               class="small muted"></div>
+
+          ${actions}
+        </div>
+      `;
+    }
+
+    async function startJob(jobId) {
+      clearError();
+
+      try {
+        const snapshot = await get(ref(db, "jobs/" + jobId));
+
+        if (!snapshot.exists()) {
+          throw new Error("Job not found.");
+        }
+
+        const job = snapshot.val();
+
+        if (!isAssigned(job)) {
+          throw new Error("This job is not assigned to you.");
+        }
+
+        if (jobStatus(job) !== "accepted") {
+          throw new Error("Only accepted jobs can be started.");
+        }
+
+        await update(ref(db, "jobs/" + jobId), {
+          status: "in_progress",
+          startedAt: serverTimestamp()
+        });
+
+        await update(ref(db, "serviceRequests/" + jobId), {
+          status: "in_progress"
+        });
+
+        await refreshDashboard();
+
+      } catch (error) {
+        console.error(error);
+        showError(error.message || "Could not start this job.");
+      }
+    }
+
+    async function completeJob(jobId) {
+      clearError();
+
+      const priceInput = $("price-" + jobId);
+      const finalPrice = Number(priceInput?.value);
+
+      if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
+        alert("Please enter a valid final agreed price.");
+        return;
+      }
+
+      const commission =
+        Math.round(finalPrice * COMMISSION_RATE * 100) / 100;
+
+      const technicianNet =
+        Math.round((finalPrice - commission) * 100) / 100;
+
+      if (!confirm(
+        "Confirm final agreed price: " + money(finalPrice) +
+        "\n\n15% platform commission: " + money(commission) +
+        "\nTechnician amount before other costs: " + money(technicianNet) +
+        "\n\nContinue?"
+      )) {
+        return;
+      }
+
+      try {
+        const [jobSnap, userSnap] = await Promise.all([
+          get(ref(db, "jobs/" + jobId)),
+          get(ref(db, "users/" + uid))
+        ]);
+
+        if (!jobSnap.exists()) {
+          throw new Error("Job not found.");
+        }
+
+        if (!userSnap.exists()) {
+          throw new Error("Technician profile not found.");
+        }
+
+        const job = jobSnap.val();
+        const currentUser = userSnap.val();
+
+        if (!isAssigned(job)) {
+          throw new Error("This job is not assigned to you.");
+        }
 
         if (
-          requestedService &&
-          services.length &&
-          !services.includes(requestedService)
-        ) continue;
-
-        count++;
-
-        const card = document.createElement("div");
-        card.className = "job";
-
-        card.innerHTML = `
-          <h3>${safe(job.service || job.serviceType || "Service Request")}</h3>
-          <p><strong>Location:</strong> ${safe(job.location || job.place || "Not specified")}</p>
-          <p><strong>Description:</strong> ${safe(job.description || "No description provided")}</p>
-          <p><strong>Estimated price:</strong> ${safe(
-            job.estimatedPrice == null ? "To be agreed with customer" : money(job.estimatedPrice)
-          )}</p>
-          <p class="muted">Customer contact details remain hidden until management authorizes release.</p>
-          <button type="button" data-accept="${safe(id)}">Accept Job</button>
-        `;
-
-        container.appendChild(card);
-      }
-
-      $("availableMessage").textContent = count
-        ? count + " available job(s)."
-        : "No matching available jobs at the moment.";
-
-      container.querySelectorAll("[data-accept]").forEach(button => {
-        button.addEventListener("click", () =>
-          acceptJob(button.dataset.accept)
-        );
-      });
-    } catch (error) {
-      console.error("Available jobs:", error);
-      $("availableMessage").textContent =
-        "Could not load available jobs. Check Firebase permissions.";
-    }
-  }
-
-  async function acceptJob(id) {
-    if (busy) return;
-
-    if (outstanding > 0) {
-      showError(lockMessage());
-      renderPaymentPanel();
-      return;
-    }
-
-    if (!confirm("Accept this job?")) return;
-
-    busy = true;
-
-    try {
-      const requestSnap = await get(ref(db, "serviceRequests/" + id));
-
-      if (!requestSnap.exists()) throw new Error("This request no longer exists.");
-
-      const request = requestSnap.val();
-
-      if (request.status !== "pending") {
-        throw new Error("This job is no longer available.");
-      }
-
-      const userSnap = await get(ref(db, "users/" + uid));
-      const user = userSnap.val() || {};
-
-      if (Number(user.commissionOwed || 0) > 0) {
-        outstanding = Number(user.commissionOwed);
-        renderPaymentPanel();
-        throw new Error(lockMessage());
-      }
-
-      const jobSnap = await get(ref(db, "jobs/" + id));
-
-      if (jobSnap.exists()) {
-        const existing = jobSnap.val();
-
-        if (existing.status !== "pending" &&
-            existing.technicianId !== uid) {
-          throw new Error("This job has already been assigned.");
-        }
-      }
-
-      const changes = {};
-
-      changes["jobs/" + id] = {
-        ...request,
-        ...((jobSnap.exists() ? jobSnap.val() : {}) || {}),
-        requestId: id,
-        jobId: id,
-        customerId: request.customerId || request.userId || "",
-        technicianId: uid,
-        technicianName: user.fullName || user.name || "",
-        status: "accepted",
-        finalPrice: null,
-        commissionAmount: 0,
-        commissionStatus: "pending",
-        technicianNet: 0,
-        acceptedAt: Date.now()
-      };
-
-      changes["serviceRequests/" + id + "/status"] = "accepted";
-      changes["serviceRequests/" + id + "/technicianId"] = uid;
-      changes["serviceRequests/" + id + "/technicianName"] =
-        user.fullName || user.name || "";
-
-      await update(ref(db), changes);
-
-      alert("Job accepted successfully.");
-      await refreshDashboard();
-    } catch (error) {
-      console.error("Accept job:", error);
-      showError(error.message || "Unable to accept this job.");
-    } finally {
-      busy = false;
-    }
-  }
-
-  async function loadJobs() {
-    const container = $("myJobs");
-    container.innerHTML = "";
-
-    try {
-      const snap = await get(ref(db, "jobs"));
-
-      if (!snap.exists()) {
-        $("myJobsMessage").textContent = "You have no jobs yet.";
-        return;
-      }
-
-      let count = 0;
-
-      for (const [id, job] of Object.entries(snap.val())) {
-        if (!job || job.technicianId !== uid) continue;
-
-        count++;
-        const card = document.createElement("div");
-        card.className = "job";
-
-        const price = Number(job.finalPrice || 0);
-        const commission = Number(
-          job.commissionAmount || price * RATE
-        );
-
-        let actions = "";
-
-        if (job.status === "accepted") {
-          actions = `<button type="button" data-start="${safe(id)}">Start Job</button>`;
-        } else if (job.status === "in_progress") {
-          actions = `
-            <label for="price-${safe(id)}"><strong>Final agreed price (K)</strong></label>
-            <input id="price-${safe(id)}" type="number" min="0.01" step="0.01"
-              placeholder="Enter the final agreed price">
-            <button type="button" data-complete="${safe(id)}">Complete Job</button>
-          `;
-        } else if (job.status === "completed") {
-          actions = `
-            <p><strong>Final price:</strong> ${money(price)}</p>
-            <p><strong>15% commission:</strong> ${money(commission)}</p>
-            <p><strong>Your amount before other costs:</strong> ${money(
-              job.technicianNet == null ? price - commission : job.technicianNet
-            )}</p>
-            <p><strong>Commission status:</strong> ${safe(job.commissionStatus || "owed")}</p>
-          `;
+          jobStatus(job) !== "in_progress" &&
+          jobStatus(job) !== "in progress"
+        ) {
+          throw new Error("Only an in-progress job can be completed.");
         }
 
-        card.innerHTML = `
-          <h3>${safe(job.service || job.serviceType || "Service Job")}</h3>
-          <p><strong>Job ID:</strong> ${safe(id)}</p>
-          <p><strong>Location:</strong> ${safe(job.location || job.place || "Not specified")}</p>
-          <p><strong>Description:</strong> ${safe(job.description || "No description provided")}</p>
-          <p><strong>Status:</strong> <span class="status">${safe(job.status || "unknown")}</span></p>
-          ${actions}
-          <div id="contact-${safe(id)}" class="muted">Checking customer contact authorization...</div>
-        `;
+        const previousOwed =
+          Number(currentUser.commissionOwed || 0);
 
-        container.appendChild(card);
+        const previousCompleted =
+          Number(currentUser.jobsCompleted || 0);
 
-        await contact(id);
-      }
+        await update(ref(db, "jobs/" + jobId), {
+          status: "completed",
+          finalPrice,
+          commissionAmount: commission,
+          commissionStatus: "owed",
+          technicianNet,
+          completedAt: serverTimestamp()
+        });
 
-      $("myJobsMessage").textContent = count
-        ? count + " job(s) assigned to you."
-        : "You have no assigned jobs yet.";
+        await update(ref(db, "serviceRequests/" + jobId), {
+          status: "completed",
+          finalPrice,
+          completedAt: serverTimestamp()
+        });
 
-      container.querySelectorAll("[data-start]").forEach(button => {
-        button.addEventListener("click", () =>
-          startJob(button.dataset.start)
+        await update(ref(db, "users/" + uid), {
+          commissionOwed:
+            Math.round((previousOwed + commission) * 100) / 100,
+          jobsCompleted: previousCompleted + 1
+        });
+
+        await refreshDashboard();
+
+        alert(
+          "Job completed.\n\n" +
+          "Final price: " + money(finalPrice) +
+          "\nPlatform commission (15%): " + money(commission) +
+          "\nTechnician amount before other costs: " + money(technicianNet) +
+          "\n\nPay your outstanding commission using:\n" +
+          "MTN Mobile Money: " + MTN_NUMBER +
+          "\nAirtel Money: " + AIRTEL_NUMBER +
+          "\nAccount name: " + PAYMENT_ACCOUNT +
+          "\n\nYou cannot accept another job until the CEO confirms payment."
         );
-      });
 
-      container.querySelectorAll("[data-complete]").forEach(button => {
-        button.addEventListener("click", () =>
-          completeJob(button.dataset.complete)
+      } catch (error) {
+        console.error(error);
+        showError(
+          error.message || "Could not complete this job."
         );
-      });
-    } catch (error) {
-      console.error("My jobs:", error);
-      $("myJobsMessage").textContent =
-        "Could not load your jobs. Check Firebase permissions.";
-    }
-  }
-
-  async function startJob(jobId) {
-    if (busy) return;
-    busy = true;
-
-    try {
-      const snap = await get(ref(db, "jobs/" + jobId));
-
-      if (!snap.exists()) throw new Error("Job not found.");
-
-      const job = snap.val();
-
-      if (job.technicianId !== uid || job.status !== "accepted") {
-        throw new Error("This job cannot be started.");
       }
-
-      const changes = {};
-      changes["jobs/" + jobId + "/status"] = "in_progress";
-      changes["jobs/" + jobId + "/startedAt"] = Date.now();
-
-      const requestId = job.requestId || jobId;
-      changes["serviceRequests/" + requestId + "/status"] = "in_progress";
-
-      await update(ref(db), changes);
-      await refreshDashboard();
-    } catch (error) {
-      console.error(error);
-      showError(error.message || "Could not start the job.");
-    } finally {
-      busy = false;
-    }
-  }
-
-  
-  async function completeJob(jobId) {
-    if (busy) return;
-
-    const input = $("price-" + jobId);
-    const finalPrice = Number(input && input.value);
-
-    if (!Number.isFinite(finalPrice) || finalPrice <= 0) {
-      showError("Enter a valid final agreed price.");
-      return;
     }
 
-    const commission = Math.round(finalPrice * RATE * 100) / 100;
-    const net = Math.round((finalPrice - commission) * 100) / 100;
+    async function contact(jobId) {
+      const target = $("contact-" + jobId);
 
-    if (!confirm(
-      "Confirm final agreed price: " + money(finalPrice) +
-      "\n\n15% platform commission: " + money(commission) +
-      "\nYour amount before other costs: " + money(net) +
-      "\n\nHave you completed this job and agreed on the price?"
-    )) return;
+      if (!target) return;
 
-    busy = true;
+      target.textContent = "Checking contact release...";
 
-    try {
-      const [jobSnap, userSnap] = await Promise.all([
-        get(ref(db, "jobs/" + jobId)),
-        get(ref(db, "users/" + uid))
-      ]);
+      try {
+        const jobSnap = await get(ref(db, "jobs/" + jobId));
 
-      if (!jobSnap.exists()) throw new Error("Job not found.");
-      if (!userSnap.exists()) throw new Error("Technician profile not found.");
+        if (!jobSnap.exists()) {
+          throw new Error("Job not found.");
+        }
 
-      const job = jobSnap.val();
-      const user = userSnap.val();
-      const currentOwed = Number(user.commissionOwed || 0);
+        const job = jobSnap.val();
 
-      if (job.technicianId !== uid || job.status !== "in_progress") {
-        throw new Error("This job is not assigned to you or is no longer in progress.");
+        if (!isAssigned(job)) {
+          throw new Error("This job is not assigned to you.");
+        }
+
+        const releaseSnap =
+          await get(ref(db, "contactReleases/" + jobId));
+
+        if (
+          !releaseSnap.exists() ||
+          releaseSnap.val().released !== true
+        ) {
+          target.textContent =
+            "Customer contact details are hidden until management releases them.";
+          return;
+        }
+
+        const release = releaseSnap.val();
+
+        if (release.technicianId && release.technicianId !== uid) {
+          target.textContent =
+            "This contact release is not assigned to you.";
+          return;
+        }
+
+        const phone =
+          release.customerPhone || job.customerPhone || "";
+
+        const location =
+          job.location || job.place ||
+          release.customerLocation || "";
+
+        target.innerHTML =
+          `<p><strong>Customer phone:</strong> ${
+            phone
+              ? `<a href="tel:${escapeHTML(phone)}">${escapeHTML(phone)}</a>`
+              : "Not provided"
+          }</p>` +
+          `<p><strong>Customer location:</strong> ${
+            escapeHTML(location || "See job details")
+          }</p>` +
+          `<p class="muted">Use these details only to complete this job.</p>`;
+
+      } catch (error) {
+        console.error(error);
+        target.textContent =
+          "Could not retrieve contact details. Please contact management.";
       }
-
-      if (currentOwed > 0) {
-        outstanding = currentOwed;
-        renderPaymentPanel();
-        throw new Error(lockMessage());
-      }
-
-      const requestId = job.requestId || jobId;
-      const changes = {};
-
-      changes["jobs/" + jobId + "/status"] = "completed";
-      changes["jobs/" + jobId + "/finalPrice"] = finalPrice;
-      changes["jobs/" + jobId + "/commissionAmount"] = commission;
-      changes["jobs/" + jobId + "/commissionStatus"] = "owed";
-      changes["jobs/" + jobId + "/technicianNet"] = net;
-      changes["jobs/" + jobId + "/completedAt"] = Date.now();
-
-      changes["serviceRequests/" + requestId + "/status"] = "completed";
-
-      changes["users/" + uid + "/commissionOwed"] = currentOwed + commission;
-      changes["users/" + uid + "/jobsCompleted"] =
-        Number(user.jobsCompleted || 0) + 1;
-
-      await update(ref(db), changes);
-      await refreshDashboard();
-
-      $("paymentAmount").textContent = money(commission);
-      $("paymentInstructions").classList.remove("hidden");
-      $("noCommissionMessage").classList.add("hidden");
-
-      $("paymentOwed").textContent = money(currentOwed + commission);
-      $("paymentStatus").textContent = "Awaiting CEO Confirmation — Commission Owed";
-
-      alert(
-        "JOB COMPLETED SUCCESSFULLY\n\n" +
-        "Final agreed price: " + money(finalPrice) + "\n" +
-        "Platform commission (15%): " + money(commission) + "\n" +
-        "Your amount before other costs: " + money(net) + "\n\n" +
-        "PAY YOUR COMMISSION\n\n" +
-        "Provider: MTN Mobile Money\n" +
-        "Account name: " + PAYMENT_NAME + "\n" +
-        "Phone number: " + PAYMENT_NUMBER + "\n" +
-        "Exact amount to send: " + money(commission) + "\n\n" +
-        "1. Open MTN Mobile Money.\n" +
-        "2. Select Send Money.\n" +
-        "3. Enter " + PAYMENT_NUMBER + ".\n" +
-        "4. Confirm the recipient name before paying.\n" +
-        "5. Send exactly " + money(commission) + ".\n" +
-        "6. Keep your transaction reference.\n" +
-        "7. Submit the reference in Commission & Payment.\n\n" +
-        "Wait for CEO confirmation. You cannot accept another job while commission is outstanding."
-      );
-
-      $("commissionSection").scrollIntoView({ behavior: "smooth" });
-    } catch (error) {
-      console.error("Complete job:", error);
-      showError(error.message || "Unable to complete the job.");
-    } finally {
-      busy = false;
     }
-  }
 
-  async function contact(jobId) {
-    const container = $("contact-" + jobId);
-    if (!container) return;
+    async function submitPaymentReference(event) {
+      event.preventDefault();
+      clearError();
 
-    try {
-      const [jobSnap, releaseSnap] = await Promise.all([
-        get(ref(db, "jobs/" + jobId)),
-        get(ref(db, "contactReleases/" + jobId))
-      ]);
+      const reference = $("paymentReference").value.trim();
+      const provider = $("paymentProvider").value;
 
-      if (!jobSnap.exists()) {
-        container.textContent = "Job not found.";
+      if (!reference) {
+        alert("Please enter your payment reference.");
         return;
       }
 
-      const job = jobSnap.val();
+      try {
+        const [userSnap, jobsSnap] = await Promise.all([
+          get(ref(db, "users/" + uid)),
+          get(ref(db, "jobs"))
+        ]);
 
-      if (job.technicianId !== uid) {
-        container.textContent = "You are not authorized to view this customer's details.";
-        return;
-      }
+        if (!userSnap.exists()) {
+          throw new Error("Technician profile not found.");
+        }
 
-      if (!releaseSnap.exists()) {
-        container.textContent =
-          "Customer phone number hidden until management authorizes release.";
-        return;
-      }
+        const currentUser = userSnap.val();
+        const allJobs = jobsSnap.exists() ? jobsSnap.val() : {};
 
-      const release = releaseSnap.val();
+        const unpaidJobs = Object.entries(allJobs).filter(
+          ([id, job]) =>
+            isAssigned(job) &&
+            String(job.status || "").toLowerCase() === "completed" &&
+            ["owed", "pending", "unpaid"].includes(
+              String(job.commissionStatus || "").toLowerCase()
+            )
+        );
 
-      if (release.released !== true || release.technicianId !== uid) {
-        container.textContent =
-          "Customer phone number hidden until management authorizes release.";
-        return;
-      }
+        const jobOwed = unpaidJobs.reduce(
+          (sum, [, job]) => sum + getJobCommission(job), 0
+        );
 
-      const phone = release.customerPhone;
+        const amount = Math.max(
+          Number(currentUser.commissionOwed || 0),
+          jobOwed
+        );
 
-      if (!phone) {
-        container.textContent = "No customer phone number is available.";
-        return;
-      }
+        if (amount <= 0) {
+          $("paymentMessage").textContent =
+            "No outstanding commission was found on your account.";
+          await checkCommissionClearance();
+          return;
+        }
 
-      container.textContent = "";
-
-      const label = document.createElement("p");
-      label.textContent = "Customer phone: " + phone;
-
-      const link = document.createElement("a");
-      link.href = "tel:" + phone;
-      link.textContent = "Call Customer";
-      link.className = "button";
-
-      container.append(label, link);
-    } catch (error) {
-      console.error("Contact authorization:", error);
-      container.textContent = "Unable to verify customer contact authorization.";
-    }
-  }
-
-  async function submitPaymentReference() {
-    const reference = $("paymentReference").value.trim();
-
-    if (outstanding <= 0) {
-      showError("There is no outstanding commission to submit.");
-      return;
-    }
-
-    if (reference.length < 3) {
-      showError("Enter the transaction reference from your mobile money receipt.");
-      return;
-    }
-
-    if (!confirm(
-      "Submit this reference for CEO verification?\n\n" +
-      "Reference: " + reference + "\n" +
-      "Commission outstanding: " + money(outstanding)
-    )) return;
-
-    $("submitPaymentBtn").disabled = true;
-
-    try {
-      const jobsSnap = await get(ref(db, "jobs"));
-      const jobIds = [];
-
-      if (jobsSnap.exists()) {
-        for (const [id, job] of Object.entries(jobsSnap.val())) {
-          if (
-            job &&
-            job.technicianId === uid &&
-            job.status === "completed" &&
-            job.commissionStatus === "owed" &&
-            Number(job.commissionAmount || 0) > 0
-          ) {
-            jobIds.push(id);
+        await set(
+          ref(db, "commissionPaymentSubmissions/" + uid),
+          {
+            technicianId: uid,
+            technicianName:
+              currentUser.fullName || currentUser.name || "",
+            technicianPhone: currentUser.phone || "",
+            provider,
+            paymentNumber:
+              provider === "MTN Mobile Money"
+                ? MTN_NUMBER
+                : AIRTEL_NUMBER,
+            accountName: PAYMENT_ACCOUNT,
+            amount,
+            reference,
+            status: "pending",
+            jobIds: unpaidJobs.map(([id]) => id),
+            submittedAt: serverTimestamp()
           }
+        );
+
+        $("paymentReference").value = "";
+        $("paymentMessage").textContent =
+          "Payment reference submitted. Your commission remains outstanding until the CEO confirms receipt.";
+
+        alert(
+          "Payment reference submitted for CEO verification.\n\n" +
+          "Amount reported: " + money(amount) +
+          "\nYour job acceptance access remains blocked until payment is confirmed."
+        );
+
+      } catch (error) {
+        console.error(error);
+        showError(
+          "Could not submit your payment reference. " +
+          (error.message || "Please try again.")
+        );
+      }
+    }
+
+    async function refreshDashboard() {
+      clearError();
+      await loadProfile();
+      await Promise.all([
+        loadAvailable(),
+        loadJobs()
+      ]);
+    }
+
+    // Copy MTN or Airtel payment number.
+    document.querySelectorAll("[data-copy]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const number = button.dataset.copy;
+
+        try {
+          await navigator.clipboard.writeText(number);
+          const originalText = button.textContent;
+          button.textContent = "Copied!";
+
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 1600);
+
+        } catch {
+          alert("Please copy this number manually: " + number);
         }
-      }
-
-      if (!jobIds.length) {
-        throw new Error("No completed jobs with outstanding commission were found.");
-      }
-
-      await set(ref(db, "commissionPaymentSubmissions/" + uid), {
-        technicianId: uid,
-        technicianName: tech.fullName || tech.name || "",
-        phone: tech.phone || "",
-        provider: "MTN Mobile Money",
-        paymentNumber: PAYMENT_NUMBER,
-        accountName: PAYMENT_NAME,
-        amountClaimed: outstanding,
-        transactionReference: reference,
-        status: "pending",
-        submittedAt: serverTimestamp(),
-        submittedAtClient: Date.now(),
-        jobIds
       });
+    });
 
-      $("paymentStatus").textContent =
-        "Reference Submitted — Awaiting CEO Confirmation";
-      $("paymentReference").value = "";
+    $("checkCommissionBtn").addEventListener("click", async () => {
+      await checkCommissionClearance(true);
+      await loadAvailable();
+    });
 
-      alert(
-        "Payment reference submitted.\n\n" +
-        "Amount: " + money(outstanding) + "\n" +
-        "Status: Awaiting CEO Confirmation.\n\n" +
-        "Your commission remains outstanding until the CEO confirms receipt."
-      );
-    } catch (error) {
-      console.error("Payment reference:", error);
-      showError(error.message || "Could not submit the payment reference.");
-    } finally {
-      $("submitPaymentBtn").disabled = outstanding <= 0;
-    }
-  }
+    $("paymentForm").addEventListener(
+      "submit",
+      submitPaymentReference
+    );
 
-  $("submitPaymentBtn").addEventListener("click", submitPaymentReference);
+    $("availableJobs").addEventListener("click", event => {
+      const button = event.target.closest("[data-accept]");
+      if (button) acceptJob(button.dataset.accept);
+    });
 
-  $("logoutBtn").addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      window.location.href = "../login.html";
-    } catch (error) {
-      console.error("Logout:", error);
-      showError("Unable to log out. Please try again.");
-    }
-  });
-</script>
+    $("myJobs").addEventListener("click", event => {
+      const startButton = event.target.closest("[data-start]");
+      const completeButton = event.target.closest("[data-complete]");
+      const contactButton = event.target.closest("[data-contact]");
+
+      if (startButton) startJob(startButton.dataset.start);
+      if (completeButton) completeJob(completeButton.dataset.complete);
+      if (contactButton) contact(contactButton.dataset.contact);
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        location.href = "../login.html";
+      } catch (error) {
+        console.error(error);
+        showError("Could not log out. Please try again.");
+      }
+    });
+
+    onAuthStateChanged(auth, async user => {
+      if (!user) {
+        location.href = "../login.html";
+        return;
+      }
+
+      uid = user.uid;
+
+      try {
+        await refreshDashboard();
+      } catch (error) {
+        console.error(error);
+        showError(
+          "Could not load the technician dashboard. Check your Firebase setup and database rules."
+        );
+      }
+    });
+  </script>
 </body>
 </html>
